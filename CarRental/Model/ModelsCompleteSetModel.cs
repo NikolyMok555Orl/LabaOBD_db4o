@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static LabaOBD.Utils;
 
 namespace LabaOBD.CarRental.Model
 {
@@ -15,22 +16,29 @@ namespace LabaOBD.CarRental.Model
 
     public enum GearboxTypes {KPP, AKPP, none }
 
+        public static string[] gearboxTypes = new string[] { GearboxTypes.KPP.ToString(), GearboxTypes.AKPP.ToString(), null };
+
+
         string nameComplete = "";
         EngineModel engine;
         double costModel = 0.0;
         double rentPrice = 0.0;
-        GearboxTypes gearboxType = GearboxTypes.none;
+        string gearboxType = gearboxTypes[(int)GearboxTypes.none];
         int amountSeat = 0;
-       
-        public string[] TitleAll => new string[] { "Название", "Двигатель", "Стоимость", "Аренда", "КП", "Места" };
 
-        public ModelsCompleteSetModel(string nameComplete, EngineModel engine, double costModel, double rentPrice, GearboxTypes gearboxType, int amountSeat)
+
+        public enum TitleType { nameComplete, engine, costModel, rentPrice, gearboxType, amountSeat };
+
+
+        public Title[] Title => new Title[]{new Title("Название", typeof(string)), new Title("Двигатель", typeof(EngineModel), true),
+        new Title("Стоимость", typeof(double)), new Title("Аренда", typeof(double)), new Title("КП", typeof(string)), new Title("Места", typeof(int))};
+        public ModelsCompleteSetModel(string nameComplete, EngineModel engine, double costModel, double rentPrice, string gearboxType, int amountSeat)
         {
             this.nameComplete = nameComplete;
-            this.engine = engine;
+            this.engine = engine.GetOne(engine);
             this.costModel = costModel;
             this.rentPrice = rentPrice;
-            this.gearboxType = gearboxType;
+            this.gearboxType = FindType(gearboxType);
             this.amountSeat = amountSeat;
         }
 
@@ -38,49 +46,31 @@ namespace LabaOBD.CarRental.Model
         {
         }
 
-        public GearboxTypes ConvertFromString(string type)
+        public string FindType(string type)
         {
-            if (type.Equals(GearboxTypes.KPP.ToString()))
-            {
-                return GearboxTypes.KPP;
-            }
-            else if (type.Equals(GearboxTypes.AKPP.ToString()))
-            {
-                return GearboxTypes.AKPP;
-            }
-            else if (type.Equals(GearboxTypes.none.ToString()))
-            {
-                return GearboxTypes.none;
-            }
-            else
-            {
-                throw new Exception("Такого типа нет");
-            }
+            if (gearboxTypes.Contains(type)) return type;
+            else return null;
         }
 
         public override DB4oConection Conection => DB.DB4OConectionCarRental;
 
         public override IObjectContainer GetDB => Conection.Db;
 
-
-
-       /* public override bool Delete()
-        {
-            GetDB.Delete(this);
-            return Conection.Commit();
-        }*/
-
+        public string NameComplete { get => nameComplete; set => nameComplete = value; }
+        public EngineModel Engine { get => engine; set => engine = value; }
+        public double CostModel { get => costModel; set => costModel = value; }
+        public double RentPrice { get => rentPrice; set => rentPrice = value; }
+        public string GearboxType { get => gearboxType; set => gearboxType = value; }
+        public int AmountSeat { get => amountSeat; set => amountSeat = value; }
 
         public override string[] FieldsAsString()
         {
-            throw new NotImplementedException();
+            return new string[] { nameComplete, engine?.ToString(), costModel.ToString(), rentPrice.ToString(), gearboxType?.ToString(), amountSeat.ToString() };
         }
 
-        public override bool Insert()
+        public override bool IsEmpty()
         {
             throw new NotImplementedException();
         }
-
-
     }
 }

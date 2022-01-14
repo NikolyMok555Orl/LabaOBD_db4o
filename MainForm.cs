@@ -36,7 +36,7 @@ namespace LabaOBD
 
         List<ActionModel> actions = new List<ActionModel>()
         {
-            { new ActionModel("Выбирте", TypeAction.None) },
+            { new ActionModel("Выберете", TypeAction.None) },
             { new ActionModel("Добавить", TypeAction.Add) }, 
             { new ActionModel("Изменить", TypeAction.Update) }, 
             { new ActionModel("Удалить", TypeAction.Remote) }
@@ -52,7 +52,7 @@ namespace LabaOBD
             {"Двигатель", new EngineController() },
             {"История штрафов", null },
             {"Модель", null },
-            {"Комплектация модели", null },
+            {"Комплектация модели", new  ModelCompleteSetController()},
             {"Штрафы", null },
             {"Рейтинг", null },
             {"История ремонта", null },
@@ -122,13 +122,6 @@ namespace LabaOBD
 
         }
 
-        private void buttonAddRental_Click(object sender, EventArgs e)
-        {
-            DataTable dataTable = new DataTable();
-            engineController.GetDataTableTitle(dataTable);
-            dataGridViewRental.DataSource = dataTable;
-
-        }
 
         private void comboBoxModelRental_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -142,7 +135,7 @@ namespace LabaOBD
             var selected = ((KeyValuePair<string, Controller>)comboBoxModelRental.SelectedItem).Value;
             if (selected != null)
             {
-                dataGridViewRental.DataSource = selected.GetAll();
+                dataGridViewRental.DataSource = selected.GetAllForView();
             }
         }
 
@@ -192,7 +185,7 @@ namespace LabaOBD
                                 dataGridViewRental.SelectionMode = DataGridViewSelectionMode.CellSelect;
                                 dataGridViewRental.MultiSelect = false;
                                 DataTable dataTable = new DataTable();
-                                dataTable = selected.GetAll();
+                                dataTable = selected.GetAllForView();
                                 dataGridViewRental.DataSource = dataTable;
                             }
 
@@ -209,7 +202,7 @@ namespace LabaOBD
                                 dataGridViewRental.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
                                 dataGridViewRental.MultiSelect =false;
                                 DataTable dataTable = new DataTable();
-                                dataTable=selected.GetAll();
+                                dataTable=selected.GetAllForView();
                                 dataGridViewRental.DataSource = dataTable;
                             }
                             break;

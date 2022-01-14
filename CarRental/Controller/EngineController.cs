@@ -12,9 +12,9 @@ namespace LabaOBD.CarRental.Controller
 {
     class EngineController : LabaOBD.Controller
     {
-        static EngineModel engine = new EngineModel();
+        static EngineModel model = new EngineModel();
 
-        List<EngineModel> engineModels = new List<EngineModel>();
+        List<EngineModel> models = new List<EngineModel>();
         public EngineController()
         {
             //Refresh();
@@ -22,84 +22,84 @@ namespace LabaOBD.CarRental.Controller
 
 
 
-
-
-        private void CreateEngine(string type, int power, double fuelConsumption, int volume, string name)
-        {
-            EngineModel engine = new EngineModel(type, power, fuelConsumption, volume, name);
-            engine.Insert();
-            Refresh();
-        }
-
         public override void Add(DataTable dataTable)
         {
-            if (!Utils.IsIdenticalHeading(dataTable, engine.TitleAll))
+            if (!Utils.IsIdenticalHeading(dataTable, model.Title))
             {
                 MessageBox.Show("Не совпадение заголовков");
                 return;
             }
             if(dataTable.Rows.Count>1) MessageBox.Show("Допустимо создания одного объекта");
             var row = dataTable.Rows[0];
-            CreateEngine(row[0].ToString(), Convert.ToInt32(row[1].ToString()),Convert.ToDouble( row[2].ToString()), 
-                Convert.ToInt32(row[3].ToString()), row[4].ToString());
+            EngineModel engine = new EngineModel(row.Field<string>(model.Title[(int)TitleType.type].Name), 
+                row.Field<int>(model.Title[(int)TitleType.power].Name), 
+                row.Field<double>(model.Title[(int)TitleType.fuelConsumption].Name),
+                row.Field<int>(model.Title[(int)TitleType.volume].Name),
+                row.Field<string>(model.Title[(int)TitleType.name].Name));
+            engine.Insert();
             Refresh();
         }
 
-        public override DataTable GetAll()
+        public override DataTable GetAllForView()
         {
             DataTable dataTable = new DataTable();
 
-            engineModels = engine.GetAll();
-            Utils.SetHeaderDateTable(dataTable, engine.TitleAll);
-            foreach (var engine in engineModels)
+            models = model.GetAll();
+            Utils.SetHeaderDateTable(dataTable, model.Title);
+            foreach (var engine in models)
             {
                 dataTable.Rows.Add(engine.FieldsAsString());
             }
             return dataTable;
         }
 
+        public override DataTable GetAllForUpdate()
+        {
+            return GetAllForView();
+        }
+
 
         public override void GetDataTableTitle(DataTable dataTable)
         {
             var en = new EngineModel();
-            Utils.SetHeaderDateTable(dataTable, en.TitleAll);
+            Utils.SetHeaderDateTable(dataTable, en.Title);
         }
 
         public override void Delete(int indexRow)
         {
-            if (indexRow > engineModels.Count)
+            if (indexRow > models.Count)
             {
                 MessageBox.Show("Ошибка удаление не сущ эл");
                 return;
             }
-            engineModels[indexRow].Delete();
+            models[indexRow].Delete();
             Refresh();
         }
 
         public override void Update(DataTable dataTable, int indexRow)
         {
-            if (!Utils.IsIdenticalHeading(dataTable, engine.TitleAll)) { 
+            if (!Utils.IsIdenticalHeading(dataTable, model.Title)) { 
                 MessageBox.Show("Не совпадение заголовков");
                 return;
             }
-            if (indexRow > engineModels.Count)
+            if (indexRow > models.Count)
             {
                 MessageBox.Show("Ошибка удаление не сущ элемент");
                 return;
             }
             var row = dataTable.Rows[indexRow];
-            engineModels[indexRow].Type = engine.ConvertFromString(row[0].ToString());
-            engineModels[indexRow].Power = Convert.ToInt32( row[1].ToString());
-            engineModels[indexRow].FuelConsumption = Convert.ToDouble(row[2].ToString());
-            engineModels[indexRow].Volume = Convert.ToInt32( row[3].ToString());
-            engineModels[indexRow].Name = row[4].ToString();
-            engineModels[indexRow].Update();
+            models[indexRow].Type = model.FindType(row[0].ToString());
+            models[indexRow].Power = Convert.ToInt32( row[1].ToString());
+            models[indexRow].FuelConsumption = Convert.ToDouble(row[2].ToString());
+            models[indexRow].Volume = Convert.ToInt32( row[3].ToString());
+            models[indexRow].Name = row[4].ToString();
+            models[indexRow].Update();
             Refresh();
         }
 
         public override void Refresh()
         {
-            engineModels = engine.GetAll();
+            models = model.GetAll();
         }
 
         

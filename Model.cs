@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace LabaOBD
 {
-    interface TitleModeInterface
+    public class Model
     {
-
-        Utils.Title[] Title { get; }
     }
 }

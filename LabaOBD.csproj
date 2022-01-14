@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CarRental\Controller\EngineController.cs" />
+    <Compile Include="CarRental\Controller\ModelCompleteSetController.cs" />
     <Compile Include="CarRental\DB4oConectionCarRental.cs" />
     <Compile Include="CarRental\Model\AppealModel.cs" />
     <Compile Include="CarRental\Model\CarModel.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
