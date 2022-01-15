@@ -1,4 +1,5 @@
 ﻿using LabaOBD.CarRental.Model;
+using LabaOBD.CarRental.View;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -6,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static LabaOBD.CarRental.Model.EngineModel;
 
 namespace LabaOBD.CarRental.Controller
 {
@@ -22,26 +22,30 @@ namespace LabaOBD.CarRental.Controller
 
 
 
-        public override void Add(DataTable dataTable)
+        public override void Add()
         {
-            if (!Utils.IsIdenticalHeading(dataTable, model.Title))
-            {
-                MessageBox.Show("Не совпадение заголовков");
-                return;
-            }
-            if(dataTable.Rows.Count>1) MessageBox.Show("Допустимо создания одного объекта");
-            var row = dataTable.Rows[0];
+            /* if (!Utils.IsIdenticalHeading(dataTable, model.Title))
+             {
+                 MessageBox.Show("Не совпадение заголовков");
+                 return;
+             }
+             if(dataTable.Rows.Count>1) MessageBox.Show("Допустимо создания одного объекта");
+             var row = dataTable.Rows[0];
 
-            EngineModel engine = new EngineModel(row.Field<string>(model.Title[(int)TitleType.type].Name), 
-                row.Field<int>(model.Title[(int)TitleType.power].Name), 
-                row.Field<double>(model.Title[(int)TitleType.fuelConsumption].Name),
-                row.Field<int>(model.Title[(int)TitleType.volume].Name),
-                row.Field<string>(model.Title[(int)TitleType.name].Name));
-            engine.Insert();
-            Refresh();
+             EngineModel engine = new EngineModel(row.Field<string>(model.Title[(int)TitleType.type].Name), 
+                 row.Field<int>(model.Title[(int)TitleType.power].Name), 
+                 row.Field<double>(model.Title[(int)TitleType.fuelConsumption].Name),
+                 row.Field<int>(model.Title[(int)TitleType.volume].Name),
+                 row.Field<string>(model.Title[(int)TitleType.name].Name));
+             engine.Insert();
+             Refresh();*/
+            EngineModel newModel = new EngineModel();
+            if (ShowForm(newModel) == DialogResult.OK)
+                newModel.Insert();
+
         }
 
-        public override DataTable GetAllForView()
+        public override DataTable GetAll()
         {
             DataTable dataTable = new DataTable();
 
@@ -54,16 +58,10 @@ namespace LabaOBD.CarRental.Controller
             return dataTable;
         }
 
-        public override DataTable GetAllForUpdate()
-        {
-            return GetAllForView();
-        }
-
 
         public override void GetDataTableTitle(DataTable dataTable)
         {
-            var en = new EngineModel();
-            Utils.SetHeaderDateTable(dataTable, en.Title);
+            Utils.SetHeaderDateTable(dataTable, model.Title);
         }
 
         public override void Delete(int indexRow)
@@ -77,9 +75,9 @@ namespace LabaOBD.CarRental.Controller
             Refresh();
         }
 
-        public override void Update(DataTable dataTable, int indexRow)
+        public override void Update( int indexRow)
         {
-            if (!Utils.IsIdenticalHeading(dataTable, model.Title)) { 
+            /*if (!Utils.IsIdenticalHeading(dataTable, model.Title)) { 
                 MessageBox.Show("Не совпадение заголовков");
                 return;
             }
@@ -95,7 +93,11 @@ namespace LabaOBD.CarRental.Controller
             models[indexRow].Volume = Convert.ToInt32( row[3].ToString());
             models[indexRow].Name = row[4].ToString();
             models[indexRow].Update();
-            Refresh();
+            Refresh();*/
+            EngineModel updateModel = models[indexRow];
+            if (ShowForm(updateModel) == DialogResult.OK)
+                updateModel.Insert();
+
         }
 
         public override void Refresh()
@@ -103,9 +105,17 @@ namespace LabaOBD.CarRental.Controller
             models = model.GetAll();
         }
 
-        public override void ShowForm(int indexModel)
+        protected override DialogResult ShowForm(object modelThis)
         {
-            throw new NotImplementedException();
+            if (modelThis is EngineModel)
+            {
+                FormEngine form = new FormEngine(modelThis as EngineModel);
+                return form.ShowDialog();
+            }
+            else
+            {
+                return DialogResult.None;
+            }
         }
     }
 }

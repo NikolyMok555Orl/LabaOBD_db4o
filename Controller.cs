@@ -4,22 +4,28 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+
 
 namespace LabaOBD
 {
+
     abstract class Controller
     {
 
        public abstract void GetDataTableTitle(DataTable dataTable);
-       public abstract DataTable GetAllForView();
+       public abstract DataTable GetAll();
 
-        public abstract DataTable GetAllForUpdate();
-        public abstract void Add(DataTable dataTable);
-       public abstract void Update(DataTable dataTable, int indexRow);
+
+        public abstract void Add();
+
+
+
+       public abstract void Update(int indexRow);
 
        public abstract void Delete(int indexRow);
 
-        public abstract void ShowForm(int indexModel);
+        protected abstract DialogResult ShowForm(Object modelThis);
         public abstract void Refresh();
 
 

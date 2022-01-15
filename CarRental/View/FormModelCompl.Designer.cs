@@ -47,26 +47,30 @@ namespace LabaOBD.CarRental.View
             // 
             // buttonSave
             // 
+            this.buttonSave.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.buttonSave.Location = new System.Drawing.Point(647, 109);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(153, 52);
             this.buttonSave.TabIndex = 0;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // buttonBack
             // 
+            this.buttonBack.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.buttonBack.Location = new System.Drawing.Point(463, 109);
             this.buttonBack.Name = "buttonBack";
             this.buttonBack.Size = new System.Drawing.Size(178, 52);
             this.buttonBack.TabIndex = 1;
             this.buttonBack.Text = "Назад";
             this.buttonBack.UseVisualStyleBackColor = true;
+            this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 13);
+            this.label1.Location = new System.Drawing.Point(1, 16);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(57, 13);
             this.label1.TabIndex = 2;
@@ -106,6 +110,7 @@ namespace LabaOBD.CarRental.View
             // 
             // comboBoxEngine
             // 
+            this.comboBoxEngine.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxEngine.FormattingEnabled = true;
             this.comboBoxEngine.Location = new System.Drawing.Point(211, 11);
             this.comboBoxEngine.Name = "comboBoxEngine";
@@ -155,6 +160,7 @@ namespace LabaOBD.CarRental.View
             // 
             // comboBoxGearboxTypes
             // 
+            this.comboBoxGearboxTypes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxGearboxTypes.FormattingEnabled = true;
             this.comboBoxGearboxTypes.Location = new System.Drawing.Point(64, 55);
             this.comboBoxGearboxTypes.Name = "comboBoxGearboxTypes";
@@ -181,7 +187,8 @@ namespace LabaOBD.CarRental.View
             this.Controls.Add(this.buttonBack);
             this.Controls.Add(this.buttonSave);
             this.Name = "FormModelCompl";
-            this.Text = "FormModelsCompleteSet";
+            this.Text = "Комплектация";
+            this.Load += new System.EventHandler(this.FormModelCompl_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

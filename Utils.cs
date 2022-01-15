@@ -11,6 +11,9 @@ namespace LabaOBD
 {
     public static class Utils
     {
+
+
+        public static readonly DateTime MinDateDateTimePicker = new DateTime(1753, 1,1 );
         public static void SetHeaderDateTable(DataTable dataTable, Title [] headers)
         {
             foreach (var header in headers)

@@ -18,28 +18,32 @@ namespace LabaOBD.CarRental.Controller
         List<ModelsCompleteSetModel> models = new List<ModelsCompleteSetModel>();
 
 
-        public override void Add(DataTable dataTable)
+        public override void Add()
         {
-            if (!Utils.IsIdenticalHeading(dataTable, model.Title))
-            {
-                MessageBox.Show("Не совпадение заголовков");
-                return;
-            }
-            if (dataTable.Rows.Count > 1) MessageBox.Show("Допустимо создания одного объекта");
-            var row = dataTable.Rows[0];
-            ModelsCompleteSetModel completeSetModel = 
-                new ModelsCompleteSetModel(row.Field<string>(model.Title[(int)TitleType.nameComplete].Name),
-                new EngineModel(null, 0, 0, 0, row.Field<string>(model.Title[(int)TitleType.engine].Name)),
-                row.Field<double>(model.Title[(int)TitleType.costModel].Name),
-                row.Field<double>(model.Title[(int)TitleType.rentPrice].Name),
-                row.Field<string>(model.Title[(int)TitleType.gearboxType].Name),
-                row.Field<int>(model.Title[(int)TitleType.amountSeat].Name));
-            completeSetModel.Insert();
-            Refresh();
+            /* if (!Utils.IsIdenticalHeading(dataTable, model.Title))
+             {
+                 MessageBox.Show("Не совпадение заголовков");
+                 return;
+             }
+             if (dataTable.Rows.Count > 1) MessageBox.Show("Допустимо создания одного объекта");
+             var row = dataTable.Rows[0];
+             ModelsCompleteSetModel completeSetModel = 
+                 new ModelsCompleteSetModel(row.Field<string>(model.Title[(int)TitleType.nameComplete].Name),
+                 new EngineModel(null, 0, 0, 0, row.Field<string>(model.Title[(int)TitleType.engine].Name)),
+                 row.Field<double>(model.Title[(int)TitleType.costModel].Name),
+                 row.Field<double>(model.Title[(int)TitleType.rentPrice].Name),
+                 row.Field<string>(model.Title[(int)TitleType.gearboxType].Name),
+                 row.Field<int>(model.Title[(int)TitleType.amountSeat].Name));
+             completeSetModel.Insert();
+             Refresh();*/
+
+            ModelsCompleteSetModel completeSetModel = new ModelsCompleteSetModel();
+            if(ShowForm(completeSetModel)==DialogResult.OK)
+                                completeSetModel.Insert();
         }
 
 
-        public void Add(DataGridView dataGrid)
+       /* public void Add(DataGridView dataGrid)
         {
             DataTable dataTable = (DataTable)dataGrid.DataSource;
             if (!Utils.IsIdenticalHeading(dataTable, model.Title))
@@ -58,7 +62,7 @@ namespace LabaOBD.CarRental.Controller
                 row.Field<int>(model.Title[(int)TitleType.amountSeat].Name));
             completeSetModel.Insert();
             Refresh();
-        }
+        }*/
 
 
 
@@ -73,7 +77,7 @@ namespace LabaOBD.CarRental.Controller
             Refresh();
         }
 
-        public override DataTable GetAllForView()
+        public override DataTable GetAll()
         {
             DataTable dataTable = new DataTable();
             models = model.GetAll();
@@ -85,18 +89,6 @@ namespace LabaOBD.CarRental.Controller
             return dataTable;
         }
 
-        public override DataTable GetAllForUpdate()
-        {
-            DataTable dataTable = new DataTable();
-            models = model.GetAll();
-            Utils.SetHeaderDateTable(dataTable, model.Title);
-            foreach (var mol in models)
-            {
-                dataTable.Rows.Add(mol.FieldsAsString());
-            }
-
-            return dataTable;
-        }
 
         public override void GetDataTableTitle(DataTable dataTable)
         {
@@ -108,7 +100,7 @@ namespace LabaOBD.CarRental.Controller
             models = model.GetAll();
         }
 
-        public override void Update(DataTable dataTable, int indexRow)
+        /*public override void Update(DataTable dataTable, int indexRow)
         {
             if (!Utils.IsIdenticalHeading(dataTable, model.Title))
             {
@@ -131,12 +123,35 @@ namespace LabaOBD.CarRental.Controller
             models[indexRow].AmountSeat = row.Field<int>(model.Title[(int)TitleType.amountSeat].Name);
             models[indexRow].Update();
             Refresh();
+        }*/
+
+
+
+      /*  public override void ShowForm(ModelsCompleteSetModel setModel)
+        {
+            //ModelsCompleteSetModel setModel = new ModelsCompleteSetModel();
+            FormModelCompl form = new FormModelCompl(new EngineModel().GetAll(), setModel);
+            form.ShowDialog();
+        }*/
+
+        public override void Update(int indexRow)
+        {
+            ModelsCompleteSetModel completeSetModel = models[indexRow];
+            if (ShowForm(completeSetModel) == DialogResult.OK)
+                completeSetModel.Insert();
         }
 
-        public override void ShowForm(int indexModel)
+        protected override DialogResult ShowForm(Object modelThis)
         {
-            FormModelCompl form = new FormModelCompl();
-            form.ShowDialog();
+            if (modelThis is ModelsCompleteSetModel)
+            {
+                FormModelCompl form = new FormModelCompl(new EngineModel().GetAll(), modelThis as ModelsCompleteSetModel);
+                return form.ShowDialog();
+            }
+            else
+            {
+               return DialogResult.None;
+            }
         }
     }
 }

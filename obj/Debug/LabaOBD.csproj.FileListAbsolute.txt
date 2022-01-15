@@ -21,3 +21,11 @@ H:\yniver\OBD\laba\proga\LabaOBD\obj\Debug\LabaOBD.exe
 H:\yniver\OBD\laba\proga\LabaOBD\obj\Debug\LabaOBD.pdb
 H:\yniver\OBD\laba\proga\LabaOBD\obj\Debug\LabaOBD.MainForm.resources
 H:\yniver\OBD\laba\proga\LabaOBD\obj\Debug\LabaOBD.CarRental.View.FormModelCompl.resources
+H:\yniver\OBD\laba\proga\LabaOBD\obj\Debug\LabaOBD.CarRental.View.FormEngine.resources
+H:\yniver\OBD\laba\proga\LabaOBD\obj\Debug\LabaOBD.CarRental.View.FormModel.resources
+H:\yniver\OBD\laba\proga\LabaOBD\obj\Debug\LabaOBD.CarRental.View.FormCar.resources
+H:\yniver\OBD\laba\proga\LabaOBD\obj\Debug\LabaOBD.CarRental.View.FormRepairHistory.resources
+H:\yniver\OBD\laba\proga\LabaOBD\obj\Debug\LabaOBD.CarRepair.View.FormBreaking.resources
+H:\yniver\OBD\laba\proga\LabaOBD\obj\Debug\LabaOBD.CarRepair.View.FormSpares.resources
+H:\yniver\OBD\laba\proga\LabaOBD\obj\Debug\LabaOBD.CarRepair.View.FormCar.resources
+H:\yniver\OBD\laba\proga\LabaOBD\obj\Debug\LabaOBD.CarRepair.View.FormServise.resources

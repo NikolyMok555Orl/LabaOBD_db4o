@@ -1,5 +1,6 @@
 ﻿using Db4objects.Db4o;
 using LabaOBD.CarRental.Controller;
+using LabaOBD.CarRepair.Controller;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,7 +15,6 @@ namespace LabaOBD
 {
     public partial class MainForm : Form
     {
-        EngineController engineController = new EngineController();
         private enum TypeAction { Add, Update, Remote, None };
 
 
@@ -46,29 +46,32 @@ namespace LabaOBD
         Dictionary<string, Controller> disRentalModel = new Dictionary<string, Controller>
         {
             {"Обращение", null },
-            {"Авто", null },
+            {"Авто", new CarContoller() },
             {"Клиент", null },
             {"Скидка", null },
             {"Двигатель", new EngineController() },
             {"История штрафов", null },
-            {"Модель", null },
+            {"Модель", new ModelContoller() },
             {"Комплектация модели", new  ModelCompleteSetController()},
             {"Штрафы", null },
             {"Рейтинг", null },
-            {"История ремонта", null },
+            {"История ремонта", new RepairHistoryController() },
 
+        };
+
+        Dictionary<string, Controller> disStoModel = new Dictionary<string, Controller>
+        {
+            {"Обращение", new ServiseConroller() },
+            {"Авто", new CarConroller() },
+            {"Запчасти", new  SparesController()},
+            {"Список поломок", new BreakingController() },
         };
 
 
         public MainForm()
         {
             InitializeComponent();
-            comboBoxModelRental.DataSource = new BindingSource(disRentalModel, null); 
-            comboBoxModelRental.DisplayMember = "Key";
-            comboBoxModelRental.ValueMember = "Value";
-            comboBoxActionRental.DataSource = actions;
-            comboBoxActionRental.DisplayMember = "Name";
-            comboBoxActionRental.ValueMember = "ActionType";
+           
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -112,7 +115,19 @@ namespace LabaOBD
         private void MainForm_Load(object sender, EventArgs e)
         {
             if (!DB.Conect()) MessageBox.Show("Ошибка при подключение к бд");
+            comboBoxModelRental.DataSource = new BindingSource(disRentalModel, null);
+            comboBoxModelRental.DisplayMember = "Key";
+            comboBoxModelRental.ValueMember = "Value";
+            comboBoxActionRental.DataSource = actions;
+            comboBoxActionRental.DisplayMember = "Name";
+            comboBoxActionRental.ValueMember = "ActionType";
 
+            comboBoxModelSto.DataSource = new BindingSource(disStoModel, null);
+            comboBoxModelSto.DisplayMember = "Key";
+            comboBoxModelSto.ValueMember = "Value";
+            comboBoxActionSto.DataSource = actions;
+            comboBoxActionSto.DisplayMember = "Name";
+            comboBoxActionSto.ValueMember = "ActionType";
 
         }
 
@@ -125,34 +140,30 @@ namespace LabaOBD
 
         private void comboBoxModelRental_SelectedIndexChanged(object sender, EventArgs e)
         {
-            GetAll();
+            GetAllCarRenal();
         }
 
 
 
-        private void GetAll()
+        private void GetAllCarRenal()
         {
             var selected = ((KeyValuePair<string, Controller>)comboBoxModelRental.SelectedItem).Value;
             if (selected != null)
             {
-                dataGridViewRental.DataSource = selected.GetAllForView();
+                dataGridViewRental.DataSource = selected.GetAll();
             }
         }
 
-        private void Add()
+        private void GetAllCarRepair()
         {
-
+            var selected = ((KeyValuePair<string, Controller>)comboBoxModelSto.SelectedItem).Value;
+            if (selected != null)
+            {
+                dataGridViewSto.DataSource = selected.GetAll();
+            }
         }
 
-        private void Delete()
-        {
 
-        }
-
-        private void Update()
-        {
-
-        }
 
         private void comboBoxActionRental_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -160,7 +171,7 @@ namespace LabaOBD
             {
 
                 var selectet = (TypeAction)comboBoxActionRental.SelectedValue;
-                var selectedModel = ((KeyValuePair<string, Controller>)comboBoxModelRental.SelectedItem).Value;
+               
                 switch (selectet)
                 {
                     case TypeAction.Add:
@@ -170,11 +181,9 @@ namespace LabaOBD
                             {
                                 DataTable dataTable = new DataTable();
                                 selected.GetDataTableTitle(dataTable);
-                                dataTable.Rows.Add();
-                                dataGridViewRental.DataSource = dataTable;
-                                selectedModel.ShowForm(0);
-
+                                dataTable = selected.GetAll();
                                 //dataGridViewRental.AllowUserToAddRows = false;
+                                buttonSaveRental.Text = "Нажмите чтобы добавить";
                             }
 
                             break;
@@ -184,11 +193,12 @@ namespace LabaOBD
                             var selected = ((KeyValuePair<string, Controller>)comboBoxModelRental.SelectedItem).Value;
                             if (selected != null)
                             {
-                                dataGridViewRental.SelectionMode = DataGridViewSelectionMode.CellSelect;
-                                dataGridViewRental.MultiSelect = false;
+                                /*dataGridViewRental.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                                dataGridViewRental.MultiSelect = false;*/
                                 DataTable dataTable = new DataTable();
-                                dataTable = selected.GetAllForView();
+                                dataTable = selected.GetAll();
                                 dataGridViewRental.DataSource = dataTable;
+                                buttonSaveRental.Text = "Выбирете позицию, после нажмите для измениня";
                             }
 
 
@@ -201,11 +211,12 @@ namespace LabaOBD
                             var selected = ((KeyValuePair<string, Controller>)comboBoxModelRental.SelectedItem).Value;
                             if (selected != null)
                             {
-                                dataGridViewRental.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                                dataGridViewRental.MultiSelect =false;
+                               /* dataGridViewRental.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                                dataGridViewRental.MultiSelect =false;*/
                                 DataTable dataTable = new DataTable();
-                                dataTable=selected.GetAllForView();
+                                dataTable=selected.GetAll();
                                 dataGridViewRental.DataSource = dataTable;
+                                buttonSaveRental.Text = "Выбирете позицию, после нажмите для удалиение";
                             }
                             break;
                         }
@@ -225,22 +236,116 @@ namespace LabaOBD
                     {
                         DataTable dt = new DataTable();
                         dt = ((DataTable)dataGridViewRental.DataSource);
-                        selectedModel.Add(dt);
-                        GetAll();
+
+                        //selectedModel.Add(dt);
+                        selectedModel.Add();
+                        GetAllCarRenal();
                         break;
                     }
                 case TypeAction.Update:
                     {
                         DataTable dt = new DataTable();
                         dt = ((DataTable)dataGridViewRental.DataSource);
-                        selectedModel.Update(dt, dataGridViewRental.CurrentCell.RowIndex);
-                        GetAll();
+                        //selectedModel.Update(dt, dataGridViewRental.CurrentCell.RowIndex);
+                        selectedModel.Update(dataGridViewRental.CurrentCell.RowIndex);
+                        GetAllCarRenal();
                         break;
                     }
                 case TypeAction.Remote:
                     {
                         selectedModel.Delete(dataGridViewRental.CurrentCell.RowIndex);
-                        GetAll();
+                        GetAllCarRenal();
+                        break;
+                    }
+            }
+        }
+
+        private void comboBoxModelSto_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            GetAllCarRepair();
+        }
+
+        private void comboBoxActionSto_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxModelRental.SelectedIndex > 0)
+            {
+
+                var selectet = (TypeAction)comboBoxActionSto.SelectedValue;
+
+                switch (selectet)
+                {
+                    case TypeAction.Add:
+                        {
+                            var selected = ((KeyValuePair<string, Controller>)comboBoxModelSto.SelectedItem).Value;
+                            if (selected != null)
+                            {
+                                DataTable dataTable = new DataTable();
+                                selected.GetDataTableTitle(dataTable);
+                                dataTable = selected.GetAll();
+                                buttonSaveRental.Text = "Нажмите чтобы добавить";
+                            }
+
+                            break;
+                        }
+                    case TypeAction.Update:
+                        {
+                            var selected = ((KeyValuePair<string, Controller>)comboBoxModelSto.SelectedItem).Value;
+                            if (selected != null)
+                            {
+
+                                DataTable dataTable = new DataTable();
+                                dataTable = selected.GetAll();
+                                dataGridViewRental.DataSource = dataTable;
+                                buttonSaveRental.Text = "Выбирете позицию, после нажмите для измениня";
+                            }
+
+
+                            break;
+                        }
+                    case TypeAction.Remote:
+                        {
+
+                            var selected = ((KeyValuePair<string, Controller>)comboBoxModelSto.SelectedItem).Value;
+                            if (selected != null)
+                            {
+                                /* dataGridViewRental.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                                 dataGridViewRental.MultiSelect =false;*/
+                                DataTable dataTable = new DataTable();
+                                dataTable = selected.GetAll();
+                                dataGridViewRental.DataSource = dataTable;
+                                buttonSaveRental.Text = "Выбирете позицию, после нажмите для удалиение";
+                            }
+                            break;
+                        }
+
+
+                }
+            }
+        }
+
+        private void buttonSaveSto_Click(object sender, EventArgs e)
+        {
+            var selectet = (TypeAction)comboBoxActionSto.SelectedValue;
+            var selectedModel = ((KeyValuePair<string, Controller>)comboBoxModelSto.SelectedItem).Value;
+            switch (selectet)
+            {
+                case TypeAction.Add:
+                    {
+                        selectedModel.Add();
+                        GetAllCarRepair();
+                        break;
+                    }
+                case TypeAction.Update:
+                    {
+
+                        selectedModel.Update(dataGridViewSto.CurrentCell.RowIndex);
+                        GetAllCarRepair();
+                        break;
+                    }
+                case TypeAction.Remote:
+                    {
+                        selectedModel.Delete(dataGridViewSto.CurrentCell.RowIndex);
+                        GetAllCarRepair();
                         break;
                     }
             }

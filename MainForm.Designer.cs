@@ -44,12 +44,21 @@ namespace LabaOBD
             this.panelCarRepair = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.labelThisOutSTO = new System.Windows.Forms.Label();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.comboBoxModelSto = new System.Windows.Forms.ComboBox();
+            this.buttonSaveSto = new System.Windows.Forms.Button();
+            this.comboBoxActionSto = new System.Windows.Forms.ComboBox();
+            this.dataGridViewSto = new System.Windows.Forms.DataGridView();
             this.panelCarRental.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRental)).BeginInit();
             this.panelCarRepair.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSto)).BeginInit();
             this.SuspendLayout();
             // 
             // panelCarRental
@@ -69,7 +78,7 @@ namespace LabaOBD
             // 
             this.buttonSaveRental.Location = new System.Drawing.Point(136, 551);
             this.buttonSaveRental.Name = "buttonSaveRental";
-            this.buttonSaveRental.Size = new System.Drawing.Size(75, 23);
+            this.buttonSaveRental.Size = new System.Drawing.Size(336, 23);
             this.buttonSaveRental.TabIndex = 5;
             this.buttonSaveRental.Text = "Применить";
             this.buttonSaveRental.UseVisualStyleBackColor = true;
@@ -171,15 +180,21 @@ namespace LabaOBD
             this.dataGridViewRental.AllowUserToDeleteRows = false;
             this.dataGridViewRental.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewRental.Location = new System.Drawing.Point(3, 195);
+            this.dataGridViewRental.MultiSelect = false;
             this.dataGridViewRental.Name = "dataGridViewRental";
+            this.dataGridViewRental.ReadOnly = true;
+            this.dataGridViewRental.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewRental.Size = new System.Drawing.Size(469, 352);
             this.dataGridViewRental.TabIndex = 0;
             // 
             // panelCarRepair
             // 
+            this.panelCarRepair.Controls.Add(this.dataGridViewSto);
+            this.panelCarRepair.Controls.Add(this.buttonSaveSto);
+            this.panelCarRepair.Controls.Add(this.comboBoxActionSto);
+            this.panelCarRepair.Controls.Add(this.panel1);
             this.panelCarRepair.Controls.Add(this.label4);
             this.panelCarRepair.Controls.Add(this.labelThisOutSTO);
-            this.panelCarRepair.Controls.Add(this.dataGridView2);
             this.panelCarRepair.Location = new System.Drawing.Point(497, 12);
             this.panelCarRepair.Name = "panelCarRepair";
             this.panelCarRepair.Size = new System.Drawing.Size(475, 587);
@@ -203,13 +218,99 @@ namespace LabaOBD
             this.labelThisOutSTO.TabIndex = 5;
             this.labelThisOutSTO.Text = "label2";
             // 
-            // dataGridView2
+            // panel1
             // 
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(3, 195);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.Size = new System.Drawing.Size(469, 352);
-            this.dataGridView2.TabIndex = 1;
+            this.panel1.Controls.Add(this.button1);
+            this.panel1.Controls.Add(this.label5);
+            this.panel1.Controls.Add(this.comboBox1);
+            this.panel1.Controls.Add(this.label6);
+            this.panel1.Controls.Add(this.comboBoxModelSto);
+            this.panel1.Location = new System.Drawing.Point(9, 23);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(466, 150);
+            this.panel1.TabIndex = 10;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(320, 110);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "button6";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(8, 49);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(44, 13);
+            this.label5.TabIndex = 3;
+            this.label5.Text = "Отчёты";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(3, 65);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.comboBox1.TabIndex = 2;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(4, 4);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(46, 13);
+            this.label6.TabIndex = 1;
+            this.label6.Text = "Модель";
+            // 
+            // comboBoxModelSto
+            // 
+            this.comboBoxModelSto.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxModelSto.FormattingEnabled = true;
+            this.comboBoxModelSto.Location = new System.Drawing.Point(3, 20);
+            this.comboBoxModelSto.Name = "comboBoxModelSto";
+            this.comboBoxModelSto.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxModelSto.TabIndex = 0;
+            this.comboBoxModelSto.SelectedIndexChanged += new System.EventHandler(this.comboBoxModelSto_SelectedIndexChanged);
+            // 
+            // buttonSaveSto
+            // 
+            this.buttonSaveSto.Location = new System.Drawing.Point(136, 551);
+            this.buttonSaveSto.Name = "buttonSaveSto";
+            this.buttonSaveSto.Size = new System.Drawing.Size(336, 23);
+            this.buttonSaveSto.TabIndex = 11;
+            this.buttonSaveSto.Text = "Применить";
+            this.buttonSaveSto.UseVisualStyleBackColor = true;
+            this.buttonSaveSto.Click += new System.EventHandler(this.buttonSaveSto_Click);
+            // 
+            // comboBoxActionSto
+            // 
+            this.comboBoxActionSto.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxActionSto.FormattingEnabled = true;
+            this.comboBoxActionSto.Items.AddRange(new object[] {
+            "добавить",
+            "изменить",
+            "удалить"});
+            this.comboBoxActionSto.Location = new System.Drawing.Point(9, 553);
+            this.comboBoxActionSto.Name = "comboBoxActionSto";
+            this.comboBoxActionSto.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxActionSto.TabIndex = 12;
+            this.comboBoxActionSto.SelectedIndexChanged += new System.EventHandler(this.comboBoxActionSto_SelectedIndexChanged);
+            // 
+            // dataGridViewSto
+            // 
+            this.dataGridViewSto.AllowUserToAddRows = false;
+            this.dataGridViewSto.AllowUserToDeleteRows = false;
+            this.dataGridViewSto.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewSto.Location = new System.Drawing.Point(6, 195);
+            this.dataGridViewSto.MultiSelect = false;
+            this.dataGridViewSto.Name = "dataGridViewSto";
+            this.dataGridViewSto.ReadOnly = true;
+            this.dataGridViewSto.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewSto.Size = new System.Drawing.Size(469, 352);
+            this.dataGridViewSto.TabIndex = 11;
             // 
             // MainForm
             // 
@@ -229,7 +330,9 @@ namespace LabaOBD
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRental)).EndInit();
             this.panelCarRepair.ResumeLayout(false);
             this.panelCarRepair.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSto)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -243,7 +346,6 @@ namespace LabaOBD
         private System.Windows.Forms.DataGridView dataGridViewRental;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label labelThisOutSTO;
-        private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox comboBox2;
@@ -252,6 +354,15 @@ namespace LabaOBD
         private System.Windows.Forms.Button buttonTest;
         private System.Windows.Forms.ComboBox comboBoxActionRental;
         private System.Windows.Forms.Button buttonSaveRental;
+        private System.Windows.Forms.Button buttonSaveSto;
+        private System.Windows.Forms.ComboBox comboBoxActionSto;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox comboBoxModelSto;
+        private System.Windows.Forms.DataGridView dataGridViewSto;
     }
 }
 

@@ -12,7 +12,7 @@ namespace LabaOBD.CarRental.Model
     public class ModelsCompleteSetModel : DBModel<ModelsCompleteSetModel>, TitleModeInterface
     {
 
-    public enum GearboxTypes {KPP, AKPP, none }
+        public enum GearboxTypes {KPP, AKPP, none }
 
         public static string[] gearboxTypes = new string[] { GearboxTypes.KPP.ToString(), GearboxTypes.AKPP.ToString(), null };
 
@@ -28,7 +28,7 @@ namespace LabaOBD.CarRental.Model
         public enum TitleType { nameComplete, engine, costModel, rentPrice, gearboxType, amountSeat };
 
 
-        public Title[] Title => new Title[]{new Title("Название", typeof(string)), new Title("Двигатель", typeof(EngineModel), true),
+        public Title[] Title => new Title[]{new Title("Название", typeof(string)), new Title("Двигатель", typeof(string), true),
         new Title("Стоимость", typeof(double)), new Title("Аренда", typeof(double)), new Title("КП", typeof(string)), new Title("Места", typeof(int))};
         public ModelsCompleteSetModel(string nameComplete, EngineModel engine, double costModel, double rentPrice, string gearboxType, int amountSeat)
         {
@@ -69,6 +69,11 @@ namespace LabaOBD.CarRental.Model
         public override bool IsEmpty()
         {
             throw new NotImplementedException();
+        }
+
+        public override string ToString()
+        {
+            return NameComplete;
         }
     }
 }
