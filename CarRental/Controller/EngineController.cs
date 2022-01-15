@@ -31,6 +31,7 @@ namespace LabaOBD.CarRental.Controller
             }
             if(dataTable.Rows.Count>1) MessageBox.Show("Допустимо создания одного объекта");
             var row = dataTable.Rows[0];
+
             EngineModel engine = new EngineModel(row.Field<string>(model.Title[(int)TitleType.type].Name), 
                 row.Field<int>(model.Title[(int)TitleType.power].Name), 
                 row.Field<double>(model.Title[(int)TitleType.fuelConsumption].Name),
@@ -102,6 +103,9 @@ namespace LabaOBD.CarRental.Controller
             models = model.GetAll();
         }
 
-        
+        public override void ShowForm(int indexModel)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

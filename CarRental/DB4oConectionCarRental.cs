@@ -8,7 +8,7 @@ namespace LabaOBD.CarRental
 {
     class DB4oConectionCarRental :DB4oConection
     {
-        protected new const String dbFileName = "CarRental.data";
+        protected const String dbFileName = "CarRental.data";
 
         public DB4oConectionCarRental() : base(dbFileName)
         {

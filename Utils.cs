@@ -22,8 +22,6 @@ namespace LabaOBD
 
         public static void SetHeaderDateTable(DataGridView dataGrid, Title[] headers)
         {
-
-
             foreach (var header in headers)
             {
                 if (header.IsList)

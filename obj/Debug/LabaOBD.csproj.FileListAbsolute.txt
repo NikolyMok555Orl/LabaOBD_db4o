@@ -20,3 +20,4 @@ H:\yniver\OBD\laba\proga\LabaOBD\obj\Debug\LabaOBD.csproj.CoreCompileInputs.cach
 H:\yniver\OBD\laba\proga\LabaOBD\obj\Debug\LabaOBD.exe
 H:\yniver\OBD\laba\proga\LabaOBD\obj\Debug\LabaOBD.pdb
 H:\yniver\OBD\laba\proga\LabaOBD\obj\Debug\LabaOBD.MainForm.resources
+H:\yniver\OBD\laba\proga\LabaOBD\obj\Debug\LabaOBD.CarRental.View.FormModelCompl.resources

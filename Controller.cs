@@ -19,7 +19,7 @@ namespace LabaOBD
 
        public abstract void Delete(int indexRow);
 
-
+        public abstract void ShowForm(int indexModel);
         public abstract void Refresh();
 
 

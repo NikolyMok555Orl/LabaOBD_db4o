@@ -12,8 +12,6 @@ namespace LabaOBD.CarRental.Model
     public class ModelsCompleteSetModel : DBModel<ModelsCompleteSetModel>, TitleModeInterface
     {
 
-   
-
     public enum GearboxTypes {KPP, AKPP, none }
 
         public static string[] gearboxTypes = new string[] { GearboxTypes.KPP.ToString(), GearboxTypes.AKPP.ToString(), null };

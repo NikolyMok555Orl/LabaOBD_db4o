@@ -160,6 +160,7 @@ namespace LabaOBD
             {
 
                 var selectet = (TypeAction)comboBoxActionRental.SelectedValue;
+                var selectedModel = ((KeyValuePair<string, Controller>)comboBoxModelRental.SelectedItem).Value;
                 switch (selectet)
                 {
                     case TypeAction.Add:
@@ -171,6 +172,7 @@ namespace LabaOBD
                                 selected.GetDataTableTitle(dataTable);
                                 dataTable.Rows.Add();
                                 dataGridViewRental.DataSource = dataTable;
+                                selectedModel.ShowForm(0);
 
                                 //dataGridViewRental.AllowUserToAddRows = false;
                             }

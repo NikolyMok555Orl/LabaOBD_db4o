@@ -1,4 +1,5 @@
 ﻿using LabaOBD.CarRental.Model;
+using LabaOBD.CarRental.View;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -91,8 +92,6 @@ namespace LabaOBD.CarRental.Controller
             Utils.SetHeaderDateTable(dataTable, model.Title);
             foreach (var mol in models)
             {
-
-
                 dataTable.Rows.Add(mol.FieldsAsString());
             }
 
@@ -132,6 +131,12 @@ namespace LabaOBD.CarRental.Controller
             models[indexRow].AmountSeat = row.Field<int>(model.Title[(int)TitleType.amountSeat].Name);
             models[indexRow].Update();
             Refresh();
+        }
+
+        public override void ShowForm(int indexModel)
+        {
+            FormModelCompl form = new FormModelCompl();
+            form.ShowDialog();
         }
     }
 }
