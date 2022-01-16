@@ -179,7 +179,7 @@ namespace LabaOBD.CarRepair.View
             this.Controls.Add(this.buttonBack);
             this.Controls.Add(this.buttonSave);
             this.Name = "FormCar";
-            this.Text = "Двигатели";
+            this.Text = "Авто СТО";
             this.Load += new System.EventHandler(this.FormCar_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

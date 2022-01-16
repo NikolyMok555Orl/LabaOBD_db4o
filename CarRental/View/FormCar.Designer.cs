@@ -43,6 +43,7 @@ namespace LabaOBD.CarRental.View
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxMileage = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.buttonSendRepir = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // buttonSave
@@ -167,11 +168,24 @@ namespace LabaOBD.CarRental.View
             this.label7.TabIndex = 17;
             this.label7.Text = "Пробег";
             // 
+            // buttonSendRepir
+            // 
+            this.buttonSendRepir.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.buttonSendRepir.Location = new System.Drawing.Point(314, 109);
+            this.buttonSendRepir.Name = "buttonSendRepir";
+            this.buttonSendRepir.Size = new System.Drawing.Size(143, 52);
+            this.buttonSendRepir.TabIndex = 19;
+            this.buttonSendRepir.Text = "Отправить в ремонт";
+            this.buttonSendRepir.UseVisualStyleBackColor = true;
+            this.buttonSendRepir.Visible = false;
+            this.buttonSendRepir.Click += new System.EventHandler(this.buttonSendRepir_Click);
+            // 
             // FormCar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(802, 162);
+            this.Controls.Add(this.buttonSendRepir);
             this.Controls.Add(this.textBoxMileage);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.textBoxNumber);
@@ -187,7 +201,7 @@ namespace LabaOBD.CarRental.View
             this.Controls.Add(this.buttonBack);
             this.Controls.Add(this.buttonSave);
             this.Name = "FormCar";
-            this.Text = "Комплектация";
+            this.Text = "Авто Аренда";
             this.Load += new System.EventHandler(this.FormCar_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -210,5 +224,6 @@ namespace LabaOBD.CarRental.View
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBoxMileage;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button buttonSendRepir;
     }
 }

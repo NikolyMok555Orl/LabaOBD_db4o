@@ -35,7 +35,7 @@ namespace LabaOBD.CarRental.Model
         public override IObjectContainer GetDB => Conection.Db;
 
         public Title[] Title => new Title[]{new Title("Модель", typeof(string)), new Title("Год", typeof(int)),
-        new Title("Состояние", typeof(string)), new Title("Цвети", typeof(string)), new Title("Номер", typeof(string)), new Title("Пробег", typeof(int))};
+        new Title("Состояние", typeof(string)), new Title("Цвет", typeof(string)), new Title("Номер", typeof(string)), new Title("Пробег", typeof(int))};
 
 
         public ModelModel Model { get => model; set => model = value; }
@@ -63,7 +63,8 @@ namespace LabaOBD.CarRental.Model
 
         public override bool IsEmpty()
         {
-            throw new NotImplementedException();
+            if (model != null && number != null && number.Length > 0) return false;
+            return true;
         }
 
         public override string[] FieldsAsString()
@@ -77,11 +78,63 @@ namespace LabaOBD.CarRental.Model
         }
 
 
+        public void SendForRepair()
+        {
+            conditionCar= conditionCarTypes[(int)ConditionCarType.repair];
+            RepairHistoryModel repairHistoryModel = new RepairHistoryModel();
+            repairHistoryModel.SendForRepair(this);
+            CarRepair.Model.ServiceModel serviceModel = new CarRepair.Model.ServiceModel();
+            serviceModel.TakeCarRepair(this, "", "");
+            Update();
+        }
+
+        public void ReturnFromRepir()
+        {
+            conditionCar = conditionCarTypes[(int)ConditionCarType.free];
+            Update();
+        }
+
+        public CarModel FindCarAsRepierDB(CarRepair.Model.CarModel carR)
+        {
+            var res = GetDB.Query<CarModel>(c=>c.number== carR.Number && c.Model.ToString()== carR.Model && c.Model?.Brand==carR.Brand);
+            if (res.Count == 1)
+            {
+                return res[0];
+            }
+            return null;
+        }
+
+        public  void ReturnFromRepir(string number)
+        {
+            IList<CarModel> result = GetDB.Query<CarModel>(u => u.Number == number);
+            if (result.Count == 1)
+            {
+                var car = result[0];
+                car.ReturnFromRepir();
+            }
+        }
+
         public DataTable GetFullInfoCar()
         {
-            DataTable dataTable = new DataTable();
+            
             IList<CarModel> result = GetDB.Query<CarModel>();
 
+
+            return GetFullInfo(result);
+        }
+
+
+
+        public DataTable GetFullInfoCarFree()
+        {
+            IList<CarModel> result = GetDB.Query<CarModel>(c=>c.conditionCar == ConditionCarType.free.ToString());
+            return GetFullInfo(result);
+
+        }
+
+        private DataTable GetFullInfo(IList<CarModel> result)
+        {
+            DataTable dataTable = new DataTable();
             List<Title> ReportTitle = new List<Title>();
             ReportTitle.AddRange(Title);
             ReportTitle.AddRange(new ModelModel().Title);
@@ -97,10 +150,21 @@ namespace LabaOBD.CarRental.Model
                 rowReport.AddRange(item.Model?.FieldsAsString());
                 rowReport.AddRange(item.Model?.Complete?.FieldsAsString());
                 rowReport.AddRange(item.Model?.Complete?.Engine?.FieldsAsString());
-                dataTable.Rows.Add(rowReport);
+                dataTable.Rows.Add(rowReport.ToArray());
             }
+            return dataTable;
+        }
 
-            return new DataTable();
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return false;
+            return obj is CarModel model &&
+                   EqualityComparer<ModelModel>.Default.Equals(this.model, model.model) &&
+                   productionYear == model.productionYear &&
+                   color == model.color &&
+                   number == model.number &&
+                   mileage == model.mileage;
         }
     }
 }

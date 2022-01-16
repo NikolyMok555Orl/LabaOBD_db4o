@@ -20,6 +20,7 @@ namespace LabaOBD.CarRepair.View
             this.modelModels = modelModels;
             this.setModel = setModel;
             InitializeComponent();
+            if (!setModel.IsEmpty() && setModel.IsRepiar()) buttonFinalRemont.Visible = true;
         }
 
         private void FormServise_Load(object sender, EventArgs e)
@@ -46,6 +47,12 @@ namespace LabaOBD.CarRepair.View
 
         private void buttonBack_Click(object sender, EventArgs e)
         {
+            Close();
+        }
+
+        private void buttonFinalRemont_Click(object sender, EventArgs e)
+        {
+            setModel.FinalRepair();
             Close();
         }
     }

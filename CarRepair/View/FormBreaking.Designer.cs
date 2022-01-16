@@ -112,7 +112,6 @@ namespace LabaOBD.CarRepair.View
             this.listBoxSpares.Name = "listBoxSpares";
             this.listBoxSpares.Size = new System.Drawing.Size(120, 95);
             this.listBoxSpares.TabIndex = 11;
-            
             // 
             // comboBoxSpares
             // 
@@ -160,7 +159,7 @@ namespace LabaOBD.CarRepair.View
             this.Controls.Add(this.buttonBack);
             this.Controls.Add(this.buttonSave);
             this.Name = "FormBreaking";
-            this.Text = "Двигатели";
+            this.Text = "Поломки";
             this.Load += new System.EventHandler(this.FormBreaking_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

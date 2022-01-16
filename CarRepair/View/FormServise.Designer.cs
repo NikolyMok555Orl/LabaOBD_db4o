@@ -41,6 +41,7 @@ namespace LabaOBD.CarRepair.View
             this.label2 = new System.Windows.Forms.Label();
             this.comboBoxCar = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.buttonFinalRemont = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // buttonSave
@@ -149,11 +150,24 @@ namespace LabaOBD.CarRepair.View
             this.label3.TabIndex = 24;
             this.label3.Text = "Авто";
             // 
+            // buttonFinalRemont
+            // 
+            this.buttonFinalRemont.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.buttonFinalRemont.Location = new System.Drawing.Point(291, 109);
+            this.buttonFinalRemont.Name = "buttonFinalRemont";
+            this.buttonFinalRemont.Size = new System.Drawing.Size(166, 52);
+            this.buttonFinalRemont.TabIndex = 27;
+            this.buttonFinalRemont.Text = "Закончить ремонт";
+            this.buttonFinalRemont.UseVisualStyleBackColor = true;
+            this.buttonFinalRemont.Visible = false;
+            this.buttonFinalRemont.Click += new System.EventHandler(this.buttonFinalRemont_Click);
+            // 
             // FormServise
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(802, 162);
+            this.Controls.Add(this.buttonFinalRemont);
             this.Controls.Add(this.comboBoxCar);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.dateTimePickerDateFinal);
@@ -167,7 +181,7 @@ namespace LabaOBD.CarRepair.View
             this.Controls.Add(this.buttonBack);
             this.Controls.Add(this.buttonSave);
             this.Name = "FormServise";
-            this.Text = "Двигатели";
+            this.Text = "Сервис";
             this.Load += new System.EventHandler(this.FormServise_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -188,5 +202,6 @@ namespace LabaOBD.CarRepair.View
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox comboBoxCar;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button buttonFinalRemont;
     }
 }

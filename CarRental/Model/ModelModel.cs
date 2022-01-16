@@ -42,7 +42,7 @@ namespace LabaOBD.CarRental.Model
 
         public override IObjectContainer GetDB => Conection.Db;
 
-        public Utils.Title[] Title => new Title[]{new Title("Название", typeof(string)), new Title("Комплектация", typeof(string), true),
+        public Utils.Title[] Title => new Title[]{new Title("Название модели", typeof(string)), new Title("Комплектация", typeof(string), true),
         new Title("Бренд", typeof(string)), new Title("Имя типа", typeof(string))};
 
         public ModelsCompleteSetModel Complete { get => complete; set => complete = value; }
@@ -63,6 +63,15 @@ namespace LabaOBD.CarRental.Model
         public override string ToString()
         {
             return NameModel;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is ModelModel model &&
+                   nameModel == model.nameModel &&
+                   EqualityComparer<ModelsCompleteSetModel>.Default.Equals(complete, model.complete) &&
+                   brand == model.brand &&
+                   bodyType == model.bodyType;
         }
     }
 }

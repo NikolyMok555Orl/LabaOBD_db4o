@@ -103,7 +103,7 @@ namespace LabaOBD.CarRepair.View
             this.Controls.Add(this.buttonBack);
             this.Controls.Add(this.buttonSave);
             this.Name = "FormSpares";
-            this.Text = "Двигатели";
+            this.Text = "Запчасти";
             this.Load += new System.EventHandler(this.FormSpares_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

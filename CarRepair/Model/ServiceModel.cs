@@ -30,6 +30,13 @@ namespace LabaOBD.CarRepair.Model
             this.dateFinal = dateFinal;
         }
 
+        public ServiceModel(CarModel car, string nameClient, string phoneClient)
+        {
+            this.car = car;
+            this.nameClient = nameClient;
+            this.phoneClient = phoneClient;
+        }
+
         public override DB4oConection Conection => DB.DB4OConectionSTO;
 
         public override IObjectContainer GetDB => Conection.Db;
@@ -49,14 +56,82 @@ namespace LabaOBD.CarRepair.Model
 
         public override bool IsEmpty()
         {
-            throw new NotImplementedException();
+            if (car != null) return false;
+            return true;
+        }
+
+
+        public bool IsRepiar()
+        {
+            return dateFinal < DateStart;
         }
 
         public DataTable GetAllServiseWithSum()
         {
-            DataTable dataTable = new DataTable();
             IList<ServiceModel> result = GetDB.Query<ServiceModel>();
+            return GetAllServiseResult(result);
+        }
 
+        public DataTable GetOnFinalServiseWithSum()
+        {
+            IList<ServiceModel> result = GetDB.Query<ServiceModel>(sm=> sm.dateFinal>=sm.dateStart);
+            return GetAllServiseResult(result);
+        }
+
+
+        public DataTable GetOnNotFinalServiseWithSum()
+        {
+            IList<ServiceModel> result = GetDB.Query<ServiceModel>(sm => sm.dateFinal < sm.dateStart);
+            return GetAllServiseResult(result);
+        }
+
+        public void TakeCarRepair(CarRental.Model.CarModel car, string nameClient, string phoneClient)
+        {
+            CarModel servieCar = new CarModel(car);
+            ServiceModel newServieModel = new ServiceModel(servieCar, nameClient, phoneClient);
+            newServieModel.Insert();
+        }
+
+        public void FinalRepair()
+        {
+            CarRental.Model.CarModel carRental = new CarRental.Model.CarModel();
+            carRental = carRental.FindCarAsRepierDB(car);
+            if (carRental != null)
+            {
+                CarRental.Model.RepairHistoryModel repairHistory = new CarRental.Model.RepairHistoryModel();
+                repairHistory = repairHistory.FindHistoryModelNotEnd(carRental);
+                if (repairHistory != null)
+                {
+                    repairHistory.ReturnCar(car.SumRepair());
+                    dateFinal = DateTime.Now;
+                    Update();
+                }
+            }
+           
+        }
+
+        public void FinalRepair(string number)
+        {
+            var res = GetDB.Query<ServiceModel>(sm=>sm.Car.Number==number && sm.DateStart>sm.DateFinal);
+            if (res.Count == 1)
+            {
+                res[0].FinalRepair();
+            }
+
+        }
+
+        public void FinalRepair(CarModel car)
+        {
+            var res = GetDB.Query<ServiceModel>(sm => sm.Car.Equals(car) && sm.DateStart > sm.DateFinal);
+            if (res.Count == 1)
+            {
+                res[0].FinalRepair();
+            }
+        }
+
+        private DataTable GetAllServiseResult(IList<ServiceModel> result)
+        {
+            DataTable dataTable = new DataTable();
             Title[] ReportTitle = Title;
             Array.Resize(ref ReportTitle, ReportTitle.Length + 1);
             ReportTitle[ReportTitle.Length - 1] = new Title("Сумма за ремонт", typeof(double));
@@ -64,12 +139,11 @@ namespace LabaOBD.CarRepair.Model
 
             foreach (var item in result)
             {
-                string[] rowReport= item.FieldsAsString();
+                string[] rowReport = item.FieldsAsString();
                 Array.Resize(ref rowReport, rowReport.Length + 1);
                 rowReport[rowReport.Length - 1] = item.Car?.SumRepair().ToString();
                 dataTable.Rows.Add(rowReport);
             }
-
             return dataTable;
         }
     }

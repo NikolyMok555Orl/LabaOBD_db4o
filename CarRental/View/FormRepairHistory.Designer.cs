@@ -188,7 +188,7 @@ namespace LabaOBD.CarRental.View
             this.Controls.Add(this.buttonBack);
             this.Controls.Add(this.buttonSave);
             this.Name = "FormRepairHistory";
-            this.Text = "Комплектация";
+            this.Text = "История ремонта";
             this.Load += new System.EventHandler(this.FormRepairHistory_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

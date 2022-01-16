@@ -22,6 +22,17 @@ namespace LabaOBD.CarRental.Model
         {
         }
 
+        public RepairHistoryModel(CarModel car, double initialAmount)
+        {
+            this.car = car;
+            this.initialAmount = initialAmount;
+        }
+
+        public RepairHistoryModel(CarModel car)
+        {
+            this.car = car;
+        }
+
         public RepairHistoryModel(CarModel car, DateTime startDate, DateTime endDatePrimary, DateTime endDate, double initialAmount, double finalAmount)
         {
             this.car = car;
@@ -56,5 +67,49 @@ namespace LabaOBD.CarRental.Model
         {
             throw new NotImplementedException();
         }
+
+        public void SendForRepair(CarModel car)
+        {
+            this.car = car;
+            Insert();
+        }
+
+
+
+        public RepairHistoryModel FindHistoryModelNotEnd(CarModel car)
+        {
+            var model = GetDB.Query<RepairHistoryModel>(rh=>rh.car.Number==car.Number && DateTime.Compare(rh.StartDate, rh.EndDate)>0);
+            if (model.Count == 1)
+            {
+               return model[0];
+            }
+            else
+            {
+                return null;
+            }
+
+
+        }
+
+        public void SendForRepair(CarModel car, double initialAmount)
+        {
+            this.car = car;
+            this.initialAmount = initialAmount;
+            Insert();
+        }
+
+
+        public void ReturnCar(double finalAmount)
+        {
+            
+            if (car!=null)
+            {
+                this.finalAmount = finalAmount;
+                endDate = DateTime.Now;
+                car.ReturnFromRepir();
+                Update();
+            }
+        }
+
     }
 }

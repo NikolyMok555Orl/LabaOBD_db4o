@@ -17,7 +17,7 @@ namespace LabaOBD
     public partial class MainForm : Form
     {
         private enum TypeAction { Add, Update, Remote, None };
-
+        private MainFormConroller mainConroller = new MainFormConroller();
 
         struct ActionModel
         {
@@ -47,7 +47,7 @@ namespace LabaOBD
         Dictionary<string, Controller> disRentalModel = new Dictionary<string, Controller>
         {
             {"Обращение", null },
-            {"Авто", new CarContoller() },
+            {"Авто", new CarRental.Controller.CarContoller() },
             {"Клиент", null },
             {"Скидка", null },
             {"Двигатель", new EngineController() },
@@ -63,7 +63,7 @@ namespace LabaOBD
         Dictionary<string, Controller> disStoModel = new Dictionary<string, Controller>
         {
             {"Обращение", new ServiseConroller() },
-            {"Авто", new CarConroller() },
+            {"Авто", new CarRepair.Controller.CarConroller() },
             {"Запчасти", new  SparesController()},
             {"Список поломок", new BreakingController() },
         };
@@ -119,16 +119,20 @@ namespace LabaOBD
             comboBoxModelRental.DataSource = new BindingSource(disRentalModel, null);
             comboBoxModelRental.DisplayMember = "Key";
             comboBoxModelRental.ValueMember = "Value";
-            comboBoxActionRental.DataSource = actions;
+            comboBoxActionRental.DataSource = new List<ActionModel>(actions);
             comboBoxActionRental.DisplayMember = "Name";
             comboBoxActionRental.ValueMember = "ActionType";
 
             comboBoxModelSto.DataSource = new BindingSource(disStoModel, null);
             comboBoxModelSto.DisplayMember = "Key";
             comboBoxModelSto.ValueMember = "Value";
-            comboBoxActionSto.DataSource = actions;
+            comboBoxActionSto.DataSource = new List<ActionModel>(actions);
             comboBoxActionSto.DisplayMember = "Name";
             comboBoxActionSto.ValueMember = "ActionType";
+
+
+            comboBoxReportRental.Items.AddRange(mainConroller.ReportCarRental.ToArray());
+            comboBoxReportRepair.Items.AddRange(mainConroller.ReportCarRepair.ToArray());
 
         }
 
@@ -136,6 +140,7 @@ namespace LabaOBD
 
         private void comboBoxModelRental_SelectedIndexChanged(object sender, EventArgs e)
         {
+            labelThisOutRental.Text = comboBoxModelRental.Text;
             GetAllCarRenal();
         }
 
@@ -196,9 +201,6 @@ namespace LabaOBD
                                 dataGridViewRental.DataSource = dataTable;
                                 buttonSaveRental.Text = "Выбирете позицию, после нажмите для измениня";
                             }
-
-
-
                             break;
                         }
                     case TypeAction.Remote:
@@ -258,12 +260,13 @@ namespace LabaOBD
 
         private void comboBoxModelSto_SelectedIndexChanged(object sender, EventArgs e)
         {
+            labelThisOutSTO.Text = comboBoxModelSto.Text;
             GetAllCarRepair();
         }
 
         private void comboBoxActionSto_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBoxModelRental.SelectedIndex > 0)
+            if (comboBoxActionSto.SelectedIndex > 0)
             {
 
                 var selectet = (TypeAction)comboBoxActionSto.SelectedValue;
@@ -278,7 +281,7 @@ namespace LabaOBD
                                 DataTable dataTable = new DataTable();
                                 selected.GetDataTableTitle(dataTable);
                                 dataTable = selected.GetAll();
-                                buttonSaveRental.Text = "Нажмите чтобы добавить";
+                                buttonSaveSto.Text = "Нажмите чтобы добавить";
                             }
 
                             break;
@@ -291,8 +294,8 @@ namespace LabaOBD
 
                                 DataTable dataTable = new DataTable();
                                 dataTable = selected.GetAll();
-                                dataGridViewRental.DataSource = dataTable;
-                                buttonSaveRental.Text = "Выбирете позицию, после нажмите для измениня";
+                                dataGridViewSto.DataSource = dataTable;
+                                buttonSaveSto.Text = "Выбирете позицию, после нажмите для измениня";
                             }
 
 
@@ -308,8 +311,8 @@ namespace LabaOBD
                                  dataGridViewRental.MultiSelect =false;*/
                                 DataTable dataTable = new DataTable();
                                 dataTable = selected.GetAll();
-                                dataGridViewRental.DataSource = dataTable;
-                                buttonSaveRental.Text = "Выбирете позицию, после нажмите для удалиение";
+                                dataGridViewSto.DataSource = dataTable;
+                                buttonSaveSto.Text = "Выбирете позицию, после нажмите для удалиение";
                             }
                             break;
                         }
@@ -354,9 +357,21 @@ namespace LabaOBD
 
         private void buttonTest_Click(object sender, EventArgs e)
         {
-            ServiceModel serviceModel = new ServiceModel().GetAll()[0];
+            CarRental.Model.CarModel car = new CarRental.Model.CarModel().GetAll()[0];
 
-            dataGridViewSto.DataSource = serviceModel.GetAllServiseWithSum();
+            dataGridViewRental.DataSource = car.GetFullInfoCar();
+        }
+
+        private void comboBoxReportRental_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            labelThisOutRental.Text = "Отчёт: " + comboBoxReportRental.Text;
+            dataGridViewRental.DataSource = mainConroller.GetReportRental(comboBoxReportRental.SelectedIndex);
+        }
+
+        private void comboBoxReportRepair_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            labelThisOutSTO.Text = "Отчёт: " + comboBoxReportRepair.Text;
+            dataGridViewSto.DataSource = mainConroller.GetReportRepair(comboBoxReportRepair.SelectedIndex);
         }
     }
 }

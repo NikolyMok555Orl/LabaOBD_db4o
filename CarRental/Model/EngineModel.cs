@@ -24,7 +24,7 @@ namespace LabaOBD.CarRental.Model
         public enum TitleType { type, power, fuelConsumption, volume, name };
 
         public Title[] Title => new Title[]{new Title("Тип", typeof(string)), new Title("Мощность", typeof(int)),  
-            new Title("Расход", typeof(double)),  new Title("Объем", typeof(int)), new Title("Название", typeof(string))};
+            new Title("Расход", typeof(double)),  new Title("Объем", typeof(int)), new Title("Двигатель название", typeof(string))};
 
         public override IObjectContainer GetDB => Conection.Db;
 
@@ -79,6 +79,16 @@ namespace LabaOBD.CarRental.Model
             if (type == null && power == 0 && fuelConsumption == 0 
                 && volume == 0 && volume == 0 && name.Length > 0) return true;
            return false;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is EngineModel model &&
+                   type == model.type &&
+                   power == model.power &&
+                   fuelConsumption == model.fuelConsumption &&
+                   volume == model.volume &&
+                   name == model.name;
         }
     }
 }

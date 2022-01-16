@@ -20,7 +20,7 @@ namespace LabaOBD.CarRental.View
             this.modelModels = modelModels;
             this.setModel = setModel;
             InitializeComponent();
-           
+            if (!setModel.IsEmpty()) buttonSendRepir.Visible = true;
 
         }
 
@@ -36,6 +36,7 @@ namespace LabaOBD.CarRental.View
             textBoxColor.Text= setModel.Color.ToString();
             textBoxNumber.Text=setModel.Number.ToString();
             textBoxMileage.Text=setModel.Mileage.ToString();
+           
         }
 
         private void buttonSave_Click(object sender, EventArgs e)
@@ -51,6 +52,12 @@ namespace LabaOBD.CarRental.View
 
         private void buttonBack_Click(object sender, EventArgs e)
         {
+            Close();
+        }
+
+        private void buttonSendRepir_Click(object sender, EventArgs e)
+        {
+            setModel.SendForRepair();
             Close();
         }
     }

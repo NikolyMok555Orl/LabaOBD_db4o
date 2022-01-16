@@ -71,7 +71,7 @@ namespace LabaOBD.CarRepair.Model
 
         public double SumSpares()
         {
-            return sparesModels.Sum(item=> item.Cost);
+            return sparesModels?.Sum(item=> item.Cost)?? 0;
         }
 
 

@@ -147,7 +147,7 @@ namespace LabaOBD.CarRental.View
             this.Controls.Add(this.buttonBack);
             this.Controls.Add(this.buttonSave);
             this.Name = "FormModel";
-            this.Text = "Комплектация";
+            this.Text = "Модель";
             this.Load += new System.EventHandler(this.FormModel_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

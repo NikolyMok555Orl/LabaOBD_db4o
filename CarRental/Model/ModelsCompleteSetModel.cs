@@ -28,7 +28,7 @@ namespace LabaOBD.CarRental.Model
         public enum TitleType { nameComplete, engine, costModel, rentPrice, gearboxType, amountSeat };
 
 
-        public Title[] Title => new Title[]{new Title("Название", typeof(string)), new Title("Двигатель", typeof(string), true),
+        public Title[] Title => new Title[]{new Title("Комлпектация название", typeof(string)), new Title("Двигатель", typeof(string), true),
         new Title("Стоимость", typeof(double)), new Title("Аренда", typeof(double)), new Title("КП", typeof(string)), new Title("Места", typeof(int))};
         public ModelsCompleteSetModel(string nameComplete, EngineModel engine, double costModel, double rentPrice, string gearboxType, int amountSeat)
         {
@@ -74,6 +74,17 @@ namespace LabaOBD.CarRental.Model
         public override string ToString()
         {
             return NameComplete;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is ModelsCompleteSetModel model &&
+                   nameComplete == model.nameComplete &&
+                   EqualityComparer<EngineModel>.Default.Equals(engine, model.engine) &&
+                   costModel == model.costModel &&
+                   rentPrice == model.rentPrice &&
+                   gearboxType == model.gearboxType &&
+                   amountSeat == model.amountSeat;
         }
     }
 }

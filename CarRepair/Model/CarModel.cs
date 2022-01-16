@@ -19,6 +19,15 @@ namespace LabaOBD.CarRepair.Model
         {
         }
 
+
+        public CarModel(CarRental.Model.CarModel car)
+        {
+            this.model = car.Model.ToString();
+            this.brand = car.Model.Brand.ToString();
+            this.number = car.Number;
+
+
+        }
         public CarModel(string model, string brand, string number)
         {
             this.model = model;
@@ -69,7 +78,15 @@ namespace LabaOBD.CarRepair.Model
 
         public double SumRepair()
         {
-            return breakingModels.Sum(item=>item.SumSpares());
+            return breakingModels?.Sum(item=>item.SumSpares()) ?? 0;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is CarModel model &&
+                   this.model == model.model &&
+                   brand == model.brand &&
+                   number == model.number;
         }
     }
 }
