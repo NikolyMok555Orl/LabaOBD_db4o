@@ -66,5 +66,18 @@ namespace LabaOBD.CarRepair.Model
         {
             return Name;
         }
+
+
+
+        public double SumSpares()
+        {
+            return sparesModels.Sum(item=> item.Cost);
+        }
+
+
+        public double amountOfBreakage()
+        {
+            return costRepair + SumSpares();
+        }
     }
 }

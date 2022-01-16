@@ -1,6 +1,7 @@
 ﻿using Db4objects.Db4o;
 using LabaOBD.CarRental.Controller;
 using LabaOBD.CarRepair.Controller;
+using LabaOBD.CarRepair.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -131,11 +132,6 @@ namespace LabaOBD
 
         }
 
-        private void buttonTest_Click(object sender, EventArgs e)
-        {
-           // dataGridViewRental.DataSource=engineController.GetAllEngine();
-
-        }
 
 
         private void comboBoxModelRental_SelectedIndexChanged(object sender, EventArgs e)
@@ -349,6 +345,18 @@ namespace LabaOBD
                         break;
                     }
             }
+        }
+
+        private void labelThisOutRental_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonTest_Click(object sender, EventArgs e)
+        {
+            ServiceModel serviceModel = new ServiceModel().GetAll()[0];
+
+            dataGridViewSto.DataSource = serviceModel.GetAllServiseWithSum();
         }
     }
 }

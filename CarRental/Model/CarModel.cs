@@ -1,6 +1,7 @@
 ﻿using Db4objects.Db4o;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -73,6 +74,33 @@ namespace LabaOBD.CarRental.Model
         public override string ToString()
         {
             return model.ToString()+" "+ number;
+        }
+
+
+        public DataTable GetFullInfoCar()
+        {
+            DataTable dataTable = new DataTable();
+            IList<CarModel> result = GetDB.Query<CarModel>();
+
+            List<Title> ReportTitle = new List<Title>();
+            ReportTitle.AddRange(Title);
+            ReportTitle.AddRange(new ModelModel().Title);
+            ReportTitle.AddRange(new ModelsCompleteSetModel().Title);
+            ReportTitle.AddRange(new EngineModel().Title);
+
+            Utils.SetHeaderDateTable(dataTable, ReportTitle.ToArray());
+
+            foreach (var item in result)
+            {
+                List<string> rowReport = new List<string>();
+                rowReport.AddRange(item.FieldsAsString());
+                rowReport.AddRange(item.Model?.FieldsAsString());
+                rowReport.AddRange(item.Model?.Complete?.FieldsAsString());
+                rowReport.AddRange(item.Model?.Complete?.Engine?.FieldsAsString());
+                dataTable.Rows.Add(rowReport);
+            }
+
+            return new DataTable();
         }
     }
 }

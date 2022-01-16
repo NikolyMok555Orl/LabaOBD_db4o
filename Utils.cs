@@ -22,6 +22,14 @@ namespace LabaOBD
             }
         }
 
+        public static void SetHeaderDateTable(DataTable dataTable, string[] headers)
+        {
+            foreach (var header in headers)
+            {
+                dataTable.Columns.Add(header);
+            }
+        }
+
 
         public static void SetHeaderDateTable(DataGridView dataGrid, Title[] headers)
         {

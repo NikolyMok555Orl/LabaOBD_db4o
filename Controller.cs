@@ -13,6 +13,8 @@ namespace LabaOBD
     abstract class Controller
     {
 
+
+        
        public abstract void GetDataTableTitle(DataTable dataTable);
        public abstract DataTable GetAll();
 
@@ -28,7 +30,10 @@ namespace LabaOBD
         protected abstract DialogResult ShowForm(Object modelThis);
         public abstract void Refresh();
 
-
+        public virtual DataTable GetReport(int index)
+        {
+            return new DataTable();
+        }
 
     }
 }
