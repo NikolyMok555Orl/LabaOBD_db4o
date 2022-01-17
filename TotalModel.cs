@@ -5,6 +5,7 @@ using LabaOBD.CarRepair.Model;
 using System;
 using System.Data;
 using System.Linq;
+using static LabaOBD.Utils;
 
 namespace LabaOBD
 {
@@ -28,12 +29,22 @@ namespace LabaOBD
             var results = (from CarRentalModel cRental in dbRental
                            join ServiceModel sm in dbRepair on cRental.Number equals sm.Car.Number
                            where sm.DateStart > sm.DateFinal
-                           select cRental).ToList();
+                           select new { cRental, sm.DateStart }).ToList();
             DataTable dataTable = new DataTable();
-            Utils.SetHeaderDateTable(dataTable, results.Last().Title);
+
+            var title = (from u in results.Last().cRental.Title
+                         select
+                         u.Name).ToList();
+
+
+            title.Add("Дата начало ремонта");
+            Utils.SetHeaderDateTable(dataTable, title.ToArray<string>());
             foreach (var res in results)
             {
-                dataTable.Rows.Add(res.FieldsAsString());
+
+                var listRes = res.cRental.FieldsAsString().ToList();
+                listRes.Add(res.DateStart.ToString());
+                dataTable.Rows.Add(listRes.ToArray());
             }
             return dataTable;
         }
@@ -72,28 +83,28 @@ namespace LabaOBD
             string[] header = new string[] { "Авто", "Сумма"};
 
             var results = (from CarRentalModel cRental in dbRental
+                           from ServiceModel sm in dbRepair
+                           where sm.Car.Number.Equals(cRental.Number)
+                           where sm.DateStart <= sm.DateFinal
                            select new
                            {
-                               group title = cRental.ToString(),
-                               sum = (from ServiceModel sm in dbRepair
-                                      where sm.Car.Number == cRental.Number
-                                      where sm.DateStart <= sm.DateFinal
-                                      select new
-                                    {
-                                    sumCar=sm.Car.BreakingModels.Sum(bm => bm.CostRepair + (from BreakingModel bm2 in dbRepair
-                                                                                     where bm.Name == bm2.Name
-                                                                                     select bm2.SparesModels.Sum(smP => smP.Cost)).Sum())
-                                })
+                               title = cRental.ToString(),
+                               sumCar = sm.Car.BreakingModels?.Sum(bm=>bm.CostRepair+ (from BreakingModel bm2 in dbRepair
+                                                                                       where bm.Name == bm2.Name
+                                                                                       select bm2.SparesModels.Sum(smP => smP.Cost)).Sum())
                            }
                     ).ToList();
             Utils.SetHeaderDateTable(dataTable, header);
             foreach (var res in results)
             {
-                dataTable.Rows.Add(res.title, res.sum.ToString());
+                dataTable.Rows.Add(res.title, res.sumCar);
             }
 
             return dataTable;
         }
 
+        /* sumCar=Convert.ToDouble(sm.Car.BreakingModels.Sum(bm => bm.CostRepair + (from BreakingModel bm2 in dbRepair
+                                                                                     where bm.Name == bm2.Name
+                                                                                     select bm2.SparesModels.Sum(smP => smP.Cost)).Sum()))*/
     }
 }
