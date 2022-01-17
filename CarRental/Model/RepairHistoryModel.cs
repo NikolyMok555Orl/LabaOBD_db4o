@@ -11,7 +11,7 @@ namespace LabaOBD.CarRental.Model
 {
     public class RepairHistoryModel : DBModel<RepairHistoryModel>, TitleModeInterface
     {
-        CarModel car = new CarModel();
+        CarRentalModel car = new CarRentalModel();
         DateTime startDate = DateTime.Now;
         DateTime endDatePrimary = DateTime.Now.AddDays(-1);
         DateTime endDate= DateTime.Now.AddDays(-1);
@@ -22,18 +22,18 @@ namespace LabaOBD.CarRental.Model
         {
         }
 
-        public RepairHistoryModel(CarModel car, double initialAmount)
+        public RepairHistoryModel(CarRentalModel car, double initialAmount)
         {
             this.car = car;
             this.initialAmount = initialAmount;
         }
 
-        public RepairHistoryModel(CarModel car)
+        public RepairHistoryModel(CarRentalModel car)
         {
             this.car = car;
         }
 
-        public RepairHistoryModel(CarModel car, DateTime startDate, DateTime endDatePrimary, DateTime endDate, double initialAmount, double finalAmount)
+        public RepairHistoryModel(CarRentalModel car, DateTime startDate, DateTime endDatePrimary, DateTime endDate, double initialAmount, double finalAmount)
         {
             this.car = car;
             this.startDate = startDate;
@@ -43,7 +43,7 @@ namespace LabaOBD.CarRental.Model
             this.finalAmount = finalAmount;
         }
 
-        public CarModel Car { get => car; set => car = value; }
+        public CarRentalModel Car { get => car; set => car = value; }
         public DateTime StartDate { get => startDate; set => startDate = value; }
         public DateTime EndDatePrimary { get => endDatePrimary; set => endDatePrimary = value; }
         public DateTime EndDate { get => endDate; set => endDate = value; }
@@ -68,7 +68,7 @@ namespace LabaOBD.CarRental.Model
             throw new NotImplementedException();
         }
 
-        public void SendForRepair(CarModel car)
+        public void SendForRepair(CarRentalModel car)
         {
             this.car = car;
             Insert();
@@ -76,7 +76,7 @@ namespace LabaOBD.CarRental.Model
 
 
 
-        public RepairHistoryModel FindHistoryModelNotEnd(CarModel car)
+        public RepairHistoryModel FindHistoryModelNotEnd(CarRentalModel car)
         {
             var model = GetDB.Query<RepairHistoryModel>(rh=>rh.car.Number==car.Number && DateTime.Compare(rh.StartDate, rh.EndDate)>0);
             if (model.Count == 1)
@@ -91,7 +91,7 @@ namespace LabaOBD.CarRental.Model
 
         }
 
-        public void SendForRepair(CarModel car, double initialAmount)
+        public void SendForRepair(CarRentalModel car, double initialAmount)
         {
             this.car = car;
             this.initialAmount = initialAmount;

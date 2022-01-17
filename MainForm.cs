@@ -116,6 +116,7 @@ namespace LabaOBD
         private void MainForm_Load(object sender, EventArgs e)
         {
             if (!DB.Conect()) MessageBox.Show("Ошибка при подключение к бд");
+
             comboBoxModelRental.DataSource = new BindingSource(disRentalModel, null);
             comboBoxModelRental.DisplayMember = "Key";
             comboBoxModelRental.ValueMember = "Value";
@@ -357,9 +358,12 @@ namespace LabaOBD
 
         private void buttonTest_Click(object sender, EventArgs e)
         {
-            CarRental.Model.CarModel car = new CarRental.Model.CarModel().GetAll()[0];
+            /*CarRental.Model.CarRentalModel car = new CarRental.Model.CarRentalModel().GetAll()[0];
 
-            dataGridViewRental.DataSource = car.GetFullInfoCar();
+            dataGridViewRental.DataSource = car.GetFullInfoCar();*/
+
+            TotalModel totalModel = new TotalModel();
+            totalModel.GetReportTotalCarRepairFromWithSumTotalAllPeriod();
         }
 
         private void comboBoxReportRental_SelectedIndexChanged(object sender, EventArgs e)

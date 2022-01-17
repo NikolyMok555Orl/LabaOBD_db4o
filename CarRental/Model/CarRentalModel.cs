@@ -9,9 +9,9 @@ using static LabaOBD.Utils;
 
 namespace LabaOBD.CarRental.Model
 {
-    public class CarModel : DBModel<CarModel>, TitleModeInterface
+    public class CarRentalModel : DBModel<CarRentalModel>, TitleModeInterface
     {
-        public CarModel()
+        public CarRentalModel()
         {
 
         }
@@ -45,7 +45,7 @@ namespace LabaOBD.CarRental.Model
         public string Number { get => number; set => number = value; }
         public int Mileage { get => mileage; set => mileage = value; }
 
-        public CarModel(ModelModel model, int productionYear, String condition_car, string color, string number, int mileage)
+        public CarRentalModel(ModelModel model, int productionYear, String condition_car, string color, string number, int mileage)
         {
             this.model = model;
             this.productionYear = productionYear;
@@ -94,9 +94,9 @@ namespace LabaOBD.CarRental.Model
             Update();
         }
 
-        public CarModel FindCarAsRepierDB(CarRepair.Model.CarModel carR)
+        public CarRentalModel FindCarAsRepierDB(CarRepair.Model.CarRepairModel carR)
         {
-            var res = GetDB.Query<CarModel>(c=>c.number== carR.Number && c.Model.ToString()== carR.Model && c.Model?.Brand==carR.Brand);
+            var res = GetDB.Query<CarRentalModel>(c=>c.number== carR.Number && c.Model.ToString()== carR.Model && c.Model?.Brand==carR.Brand);
             if (res.Count == 1)
             {
                 return res[0];
@@ -106,7 +106,7 @@ namespace LabaOBD.CarRental.Model
 
         public  void ReturnFromRepir(string number)
         {
-            IList<CarModel> result = GetDB.Query<CarModel>(u => u.Number == number);
+            IList<CarRentalModel> result = GetDB.Query<CarRentalModel>(u => u.Number == number);
             if (result.Count == 1)
             {
                 var car = result[0];
@@ -117,7 +117,7 @@ namespace LabaOBD.CarRental.Model
         public DataTable GetFullInfoCar()
         {
             
-            IList<CarModel> result = GetDB.Query<CarModel>();
+            IList<CarRentalModel> result = GetDB.Query<CarRentalModel>();
 
 
             return GetFullInfo(result);
@@ -127,12 +127,12 @@ namespace LabaOBD.CarRental.Model
 
         public DataTable GetFullInfoCarFree()
         {
-            IList<CarModel> result = GetDB.Query<CarModel>(c=>c.conditionCar == ConditionCarType.free.ToString());
+            IList<CarRentalModel> result = GetDB.Query<CarRentalModel>(c=>c.conditionCar == ConditionCarType.free.ToString());
             return GetFullInfo(result);
 
         }
 
-        private DataTable GetFullInfo(IList<CarModel> result)
+        private DataTable GetFullInfo(IList<CarRentalModel> result)
         {
             DataTable dataTable = new DataTable();
             List<Title> ReportTitle = new List<Title>();
@@ -159,7 +159,7 @@ namespace LabaOBD.CarRental.Model
         public override bool Equals(object obj)
         {
             if (obj == null) return false;
-            return obj is CarModel model &&
+            return obj is CarRentalModel model &&
                    EqualityComparer<ModelModel>.Default.Equals(this.model, model.model) &&
                    productionYear == model.productionYear &&
                    color == model.color &&

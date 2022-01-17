@@ -13,9 +13,9 @@ namespace LabaOBD.CarRepair.View
 {
     public partial class FormServise : Form
     {
-        List<CarModel> modelModels;
+        List<CarRepairModel> modelModels;
         ServiceModel setModel;
-        public FormServise(ServiceModel setModel, List<CarModel> modelModels)
+        public FormServise(ServiceModel setModel, List<CarRepairModel> modelModels)
         {
             this.modelModels = modelModels;
             this.setModel = setModel;

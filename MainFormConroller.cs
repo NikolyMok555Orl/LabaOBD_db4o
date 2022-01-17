@@ -11,7 +11,7 @@ namespace LabaOBD
     {
 
 
-        List<string> reportCarRental = new List<string>() { "Авто полная инфа", "Свободные авто полная инфа" };
+        List<string> reportCarRental = new List<string>() { "Авто полная инфа", "Свободные авто полная инфа" , "Авто в ремонте с помощью двух баз", "Сумма за ремонт по отправки"};
         List<string> reportCarRepair = new List<string>() { "Все авто, что были/есть в сто", "Авто в ремонте", "Авто отремонтированные" };
 
         public List<string> ReportCarRental { get => reportCarRental; set => reportCarRental = value; }
@@ -24,12 +24,21 @@ namespace LabaOBD
             {
                 case 0:
                     {
-                        return (new CarRental.Model.CarModel().GetFullInfoCar());
+                        return (new CarRental.Model.CarRentalModel().GetFullInfoCar());
                     }
                 case 1:
                     {
-                        return (new CarRental.Model.CarModel().GetFullInfoCarFree());
+                        return (new CarRental.Model.CarRentalModel().GetFullInfoCarFree());
                     }
+                case 2:
+                    {
+                        return new TotalModel().GetReportTotalCarRepair();
+                    }
+                case 3:
+                    {
+                        return new TotalModel().GetReportTotalCarRepairFromWithSumTotalAllPeriod();
+                    }
+
                 default: return new DataTable();
             }
         }

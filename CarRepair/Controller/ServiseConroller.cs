@@ -67,7 +67,7 @@ namespace LabaOBD.CarRepair.Controller
         {
             if (modelThis is ServiceModel)
             {
-                FormServise form = new FormServise(modelThis as ServiceModel, new CarModel().GetAll());
+                FormServise form = new FormServise(modelThis as ServiceModel, new CarRepairModel().GetAll());
                 return form.ShowDialog();
 
             }

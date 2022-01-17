@@ -14,8 +14,8 @@ namespace LabaOBD.CarRental.View
     public partial class FormCar : Form
     {
         List<ModelModel> modelModels;
-        CarModel setModel;
-        public FormCar(List<ModelModel> modelModels, CarModel setModel)
+        CarRentalModel setModel;
+        public FormCar(List<ModelModel> modelModels, CarRentalModel setModel)
         {
             this.modelModels = modelModels;
             this.setModel = setModel;
@@ -28,11 +28,11 @@ namespace LabaOBD.CarRental.View
         {
             comboBoxModel.DataSource = modelModels;
             comboBoxModel.DisplayMember = "Name";
-            comboBoxConditionCar.DataSource =CarModel.conditionCarTypes;
+            comboBoxConditionCar.DataSource =CarRentalModel.conditionCarTypes;
             var index = modelModels.FindIndex(item => item == setModel.Model);
             comboBoxModel.SelectedIndex = index >= 0 ? index : 0;
             textBoxProductionYear.Text = setModel.ProductionYear.ToString();
-            comboBoxConditionCar.Text = Array.Find(CarModel.conditionCarTypes, it => it == (setModel.ConditionCar));
+            comboBoxConditionCar.Text = Array.Find(CarRentalModel.conditionCarTypes, it => it == (setModel.ConditionCar));
             textBoxColor.Text= setModel.Color.ToString();
             textBoxNumber.Text=setModel.Number.ToString();
             textBoxMileage.Text=setModel.Mileage.ToString();

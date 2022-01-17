@@ -14,11 +14,11 @@ namespace LabaOBD.CarRepair.View
     public partial class FormCar : Form
     {
        
-        CarModel setModel;
+        CarRepairModel setModel;
         List<BreakingModel> sparesBreakings;
         List<BreakingModel> sparesBreaking=new List<BreakingModel>();
 
-        public FormCar(CarModel setModel, List<BreakingModel> sparesModels)
+        public FormCar(CarRepairModel setModel, List<BreakingModel> sparesModels)
         {
             this.setModel = setModel;
             this.sparesBreakings = sparesModels;

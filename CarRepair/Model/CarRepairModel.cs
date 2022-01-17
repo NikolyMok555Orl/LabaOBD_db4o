@@ -8,19 +8,19 @@ using static LabaOBD.Utils;
 
 namespace LabaOBD.CarRepair.Model
 {
-    public class CarModel : DBModel<CarModel>, TitleModeInterface
+    public class CarRepairModel : DBModel<CarRepairModel>, TitleModeInterface
     {
         string model;
         string brand;
         string number;
         List<BreakingModel> breakingModels;
 
-        public CarModel()
+        public CarRepairModel()
         {
         }
 
 
-        public CarModel(CarRental.Model.CarModel car)
+        public CarRepairModel(CarRental.Model.CarRentalModel car)
         {
             this.model = car.Model.ToString();
             this.brand = car.Model.Brand.ToString();
@@ -28,14 +28,14 @@ namespace LabaOBD.CarRepair.Model
 
 
         }
-        public CarModel(string model, string brand, string number)
+        public CarRepairModel(string model, string brand, string number)
         {
             this.model = model;
             this.brand = brand;
             this.number = number;
         }
 
-        public CarModel(string model, string brand, string number, List<BreakingModel> breakingModels) : this(model, brand, number)
+        public CarRepairModel(string model, string brand, string number, List<BreakingModel> breakingModels) : this(model, brand, number)
         {
             this.breakingModels = breakingModels;
         }
@@ -83,7 +83,7 @@ namespace LabaOBD.CarRepair.Model
 
         public override bool Equals(object obj)
         {
-            return obj is CarModel model &&
+            return obj is CarRepairModel model &&
                    this.model == model.model &&
                    brand == model.brand &&
                    number == model.number;

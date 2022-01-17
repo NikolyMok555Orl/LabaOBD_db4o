@@ -69,7 +69,7 @@ namespace LabaOBD.CarRental.Controller
         {
             if (modelThis is RepairHistoryModel)
             {
-                FormRepairHistory form = new FormRepairHistory(new CarModel().GetAll(), modelThis as RepairHistoryModel);
+                FormRepairHistory form = new FormRepairHistory(new CarRentalModel().GetAll(), modelThis as RepairHistoryModel);
                 return form.ShowDialog();
             }
             else

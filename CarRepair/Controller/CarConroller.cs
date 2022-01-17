@@ -13,11 +13,11 @@ namespace LabaOBD.CarRepair.Controller
     class CarConroller : LabaOBD.Controller
     {
 
-        static CarModel model = new CarModel();
-        List<CarModel> models = new List<CarModel>();
+        static CarRepairModel model = new CarRepairModel();
+        List<CarRepairModel> models = new List<CarRepairModel>();
         public override void Add()
         {
-            CarModel newModel = new CarModel();
+            CarRepairModel newModel = new CarRepairModel();
             if (ShowForm(newModel) == DialogResult.OK)
                 newModel.Insert();
         }
@@ -58,16 +58,16 @@ namespace LabaOBD.CarRepair.Controller
 
         public override void Update(int indexRow)
         {
-            CarModel updateModel = models[indexRow];
+            CarRepairModel updateModel = models[indexRow];
             if (ShowForm(updateModel) == DialogResult.OK)
                 updateModel.Insert();
         }
 
         protected override DialogResult ShowForm(object modelThis)
         {
-            if (modelThis is CarModel)
+            if (modelThis is CarRepairModel)
             {
-                FormCar form = new FormCar(modelThis as CarModel, new BreakingModel().GetAll());
+                FormCar form = new FormCar(modelThis as CarRepairModel, new BreakingModel().GetAll());
                 return form.ShowDialog();
 
             }

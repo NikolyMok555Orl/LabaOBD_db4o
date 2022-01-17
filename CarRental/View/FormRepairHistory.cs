@@ -13,9 +13,9 @@ namespace LabaOBD.CarRental.View
 {
     public partial class FormRepairHistory : Form
     {
-        List<CarModel> modelModels;
+        List<CarRentalModel> modelModels;
         RepairHistoryModel setModel;
-        public FormRepairHistory(List<CarModel> modelModels, RepairHistoryModel setModel)
+        public FormRepairHistory(List<CarRentalModel> modelModels, RepairHistoryModel setModel)
         {
             this.modelModels = modelModels;
             this.setModel = setModel;

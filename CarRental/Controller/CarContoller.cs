@@ -12,13 +12,13 @@ namespace LabaOBD.CarRental.Controller
 {
     class CarContoller : LabaOBD.Controller
     {
-        static CarModel model = new CarModel();
+        static CarRentalModel model = new CarRentalModel();
 
-        List<CarModel> models = new List<CarModel>();
+        List<CarRentalModel> models = new List<CarRentalModel>();
 
         public override void Add()
         {
-            CarModel newModel = new CarModel();
+            CarRentalModel newModel = new CarRentalModel();
             if (ShowForm(newModel) == DialogResult.OK)
                 newModel.Insert();
         }
@@ -49,7 +49,7 @@ namespace LabaOBD.CarRental.Controller
 
         public override void GetDataTableTitle(DataTable dataTable)
         {
-            var en = new CarModel();
+            var en = new CarRentalModel();
             Utils.SetHeaderDateTable(dataTable, en.Title);
         }
 
@@ -60,16 +60,16 @@ namespace LabaOBD.CarRental.Controller
 
         public override void Update(int indexRow)
         {
-            CarModel updateModel = models[indexRow];
+            CarRentalModel updateModel = models[indexRow];
             if (ShowForm(updateModel) == DialogResult.OK)
                 updateModel.Insert();
         }
 
         protected override DialogResult ShowForm(object modelThis)
         {
-            if (modelThis is CarModel)
+            if (modelThis is CarRentalModel)
             {
-                FormCar form = new FormCar(new ModelModel().GetAll(),modelThis as CarModel);
+                FormCar form = new FormCar(new ModelModel().GetAll(),modelThis as CarRentalModel);
                 return form.ShowDialog();
             }
             else

@@ -17,6 +17,7 @@ namespace LabaOBD
         {
             this.dbFileName = dbFileName;
             db = null;
+
         }
 
 
@@ -27,6 +28,7 @@ namespace LabaOBD
             try
             {
                 db = Db4oEmbedded.OpenFile(dbFileName);
+                db.Ext().Configure().ActivationDepth(5);
                 return true;
 
             }catch(Exception e)
@@ -40,6 +42,7 @@ namespace LabaOBD
         {
             if (db != null)
             {
+                db.Ext().Configure().ActivationDepth(5);
                 db.Commit();
                 return true;
             }

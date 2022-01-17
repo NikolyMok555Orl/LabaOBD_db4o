@@ -11,7 +11,7 @@ namespace LabaOBD.CarRepair.Model
     /// </summary>
     public class ServiceModel : DBModel<ServiceModel>, TitleModeInterface
     {
-        private CarModel car;
+        private CarRepairModel car;
         private string nameClient;
         private string phoneClient;
         private DateTime dateStart = DateTime.Now;
@@ -21,7 +21,7 @@ namespace LabaOBD.CarRepair.Model
         {
         }
 
-        public ServiceModel(CarModel car, string nameClient, string phoneClient, DateTime dateStart, DateTime dateFinal)
+        public ServiceModel(CarRepairModel car, string nameClient, string phoneClient, DateTime dateStart, DateTime dateFinal)
         {
             this.car = car;
             this.nameClient = nameClient;
@@ -30,7 +30,7 @@ namespace LabaOBD.CarRepair.Model
             this.dateFinal = dateFinal;
         }
 
-        public ServiceModel(CarModel car, string nameClient, string phoneClient)
+        public ServiceModel(CarRepairModel car, string nameClient, string phoneClient)
         {
             this.car = car;
             this.nameClient = nameClient;
@@ -43,7 +43,7 @@ namespace LabaOBD.CarRepair.Model
 
         public Title[] Title => new Title[] { new Title("Авто", typeof(string)), new Title("Клиент", typeof(string)), new Title("Номер", typeof(string)), new Title("Начало", typeof(string)), new Title("Конец", typeof(string)), };
 
-        public CarModel Car { get => car; set => car = value; }
+        public CarRepairModel Car { get => car; set => car = value; }
         public string NameClient { get => nameClient; set => nameClient = value; }
         public string PhoneClient { get => phoneClient; set => phoneClient = value; }
         public DateTime DateStart { get => dateStart; set => dateStart = value; }
@@ -85,16 +85,16 @@ namespace LabaOBD.CarRepair.Model
             return GetAllServiseResult(result);
         }
 
-        public void TakeCarRepair(CarRental.Model.CarModel car, string nameClient, string phoneClient)
+        public void TakeCarRepair(CarRental.Model.CarRentalModel car, string nameClient, string phoneClient)
         {
-            CarModel servieCar = new CarModel(car);
+            CarRepairModel servieCar = new CarRepairModel(car);
             ServiceModel newServieModel = new ServiceModel(servieCar, nameClient, phoneClient);
             newServieModel.Insert();
         }
 
         public void FinalRepair()
         {
-            CarRental.Model.CarModel carRental = new CarRental.Model.CarModel();
+            CarRental.Model.CarRentalModel carRental = new CarRental.Model.CarRentalModel();
             carRental = carRental.FindCarAsRepierDB(car);
             if (carRental != null)
             {
@@ -120,7 +120,7 @@ namespace LabaOBD.CarRepair.Model
 
         }
 
-        public void FinalRepair(CarModel car)
+        public void FinalRepair(CarRepairModel car)
         {
             var res = GetDB.Query<ServiceModel>(sm => sm.Car.Equals(car) && sm.DateStart > sm.DateFinal);
             if (res.Count == 1)

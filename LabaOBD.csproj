@@ -80,7 +80,7 @@
     <Compile Include="CarRental\Controller\RepairHistoryController.cs" />
     <Compile Include="CarRental\DB4oConectionCarRental.cs" />
     <Compile Include="CarRental\Model\AppealModel.cs" />
-    <Compile Include="CarRental\Model\CarModel.cs" />
+    <Compile Include="CarRental\Model\CarRentalModel.cs" />
     <Compile Include="CarRental\Model\ClientModel.cs" />
     <Compile Include="CarRental\Model\DiscountModel.cs" />
     <Compile Include="CarRental\Model\EngineModel.cs" />
@@ -126,7 +126,7 @@
     <Compile Include="CarRepair\Controller\SparesController.cs" />
     <Compile Include="CarRepair\DB4oConectionCarRental.cs" />
     <Compile Include="CarRepair\Model\BreakingModel.cs" />
-    <Compile Include="CarRepair\Model\CarModel.cs" />
+    <Compile Include="CarRepair\Model\CarRepairModel.cs" />
     <Compile Include="CarRepair\Model\ServiceModel.cs" />
     <Compile Include="CarRepair\Model\SparesModel.cs" />
     <Compile Include="CarRepair\View\FormCar.cs">
@@ -169,6 +169,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TitleModeInterface.cs" />
+    <Compile Include="TotalModel.cs" />
     <Compile Include="Utils.cs" />
     <EmbeddedResource Include="CarRental\View\FormRepairHistory.resx">
       <DependentUpon>FormRepairHistory.cs</DependentUpon>

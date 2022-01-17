@@ -9,7 +9,7 @@ namespace LabaOBD.CarRental.Model
     class AppealModel
     {
         ClientModel client = new ClientModel();
-        CarModel car = new CarModel();
+        CarRentalModel car = new CarRentalModel();
         DateTime dateAppeal = DateTime.Now;
         DateTime dateEndPreliminary = new DateTime();
         DateTime dateEnd = new DateTime();
@@ -19,7 +19,7 @@ namespace LabaOBD.CarRental.Model
         double initialAmount = 0;
         double finalAmount = 0;
 
-        public AppealModel(ClientModel client, CarModel car, DateTime dateAppeal, DateTime dateEndPreliminary,   
+        public AppealModel(ClientModel client, CarRentalModel car, DateTime dateAppeal, DateTime dateEndPreliminary,   
             DateTime dateEnd, List<PenaltiModel> penaltis, double initialAmount, double finalAmount)
         {
             this.client = client;
